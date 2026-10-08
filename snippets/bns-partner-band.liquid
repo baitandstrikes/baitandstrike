@@ -1,0 +1,12 @@
+{% comment %}
+  BNS partner band — Woo "partner-band" + "Daftar mitra B2B" port.
+  Link configurable via theme setting; defaults to /account/register.
+  Usage: {% render 'bns-partner-band', link: '/account/register', text: 'Daftar sebagai mitra B2B' %}
+{% endcomment %}
+<section class="bns-partner-band page-width" aria-label="Kemitraan B2B">
+  <h2>Tetap terhubung dengan update BNS Fishing dan penawaran eksklusif</h2>
+  <p>Dapatkan informasi perlengkapan terbaru dan penawaran untuk kebutuhan toko Anda.</p>
+  <a class="button button--primary" href="{{ link | default: '/account/register' }}">
+    {{ text | default: 'Daftar sebagai mitra B2B' }} <span aria-hidden="true">&rarr;</span>
+  </a>
+</section>

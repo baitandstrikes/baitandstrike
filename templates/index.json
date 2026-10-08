@@ -1,0 +1,591 @@
+{
+  "sections": {
+    "image_banner": {
+      "type": "image-banner",
+      "settings": {
+        "image": "shopify://shop_images/DESAIN_STIKER_KACA-OFFLINE_STORE_BNS.png",
+        "image_overlay_opacity": 20,
+        "image_height": "adapt",
+        "image_behavior": "none",
+        "desktop_content_position": "bottom-left",
+        "desktop_content_alignment": "left",
+        "show_text_box": false,
+        "color_scheme": "scheme-4",
+        "stack_images_on_mobile": true,
+        "mobile_content_alignment": "center",
+        "show_text_below": false
+      }
+    },
+    "multicolumn": {
+      "type": "multicolumn",
+      "blocks": {
+        "column2": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/LOGO_JEMMY-HITAM.png",
+            "title": "",
+            "text": "",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column3": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/Logo_proberos_fix.png",
+            "title": "",
+            "text": "",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column4": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/Logo_Lemoren.png",
+            "title": "",
+            "text": "",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column5": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/ECOODA.png",
+            "title": "",
+            "text": "",
+            "link_label": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "column2",
+        "column3",
+        "column4",
+        "column5"
+      ],
+      "settings": {
+        "title": "",
+        "heading_size": "h2",
+        "image_width": "full",
+        "image_ratio": "adapt",
+        "button_label": "",
+        "button_link": "",
+        "columns_desktop": 4,
+        "column_alignment": "center",
+        "background_style": "none",
+        "color_scheme": "scheme-1",
+        "columns_mobile": "2",
+        "swipe_on_mobile": true,
+        "padding_top": 20,
+        "padding_bottom": 20
+      }
+    },
+    "rich_text": {
+      "type": "rich-text",
+      "blocks": {
+        "text": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Best Service | Best Price | Fishing Gear Experts</p>"
+          }
+        }
+      },
+      "block_order": [
+        "text"
+      ],
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "scheme-3",
+        "full_width": true,
+        "padding_top": 4,
+        "padding_bottom": 4
+      }
+    },
+    "featured_collection1": {
+      "type": "featured-collection",
+      "settings": {
+        "collection": "fishing-rods-joran",
+        "products_to_show": 5,
+        "title": "Proven Best Seller",
+        "heading_size": "h2",
+        "description": "",
+        "show_description": false,
+        "description_style": "body",
+        "columns_desktop": 5,
+        "enable_desktop_slider": false,
+        "full_width": true,
+        "show_view_all": true,
+        "view_all_style": "solid",
+        "color_scheme": "",
+        "image_ratio": "adapt",
+        "image_shape": "default",
+        "show_secondary_image": false,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "bulk",
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "padding_top": 20,
+        "padding_bottom": 20
+      }
+    },
+    "collection_list": {
+      "type": "collection-list",
+      "blocks": {
+        "featured_collection1": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "fishing-rods-joran"
+          }
+        },
+        "featured_collection2": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "reel"
+          }
+        },
+        "featured_collection3": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "fishing-bait"
+          }
+        },
+        "featured_collection4": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "fishing-line"
+          }
+        },
+        "featured_collection5": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "hook"
+          }
+        },
+        "featured_collection_JzFFM9": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "fishing-accesories"
+          }
+        }
+      },
+      "block_order": [
+        "featured_collection1",
+        "featured_collection2",
+        "featured_collection3",
+        "featured_collection4",
+        "featured_collection5",
+        "featured_collection_JzFFM9"
+      ],
+      "settings": {
+        "title": "Shop our top categories",
+        "heading_size": "h2",
+        "image_ratio": "adapt",
+        "columns_desktop": 6,
+        "color_scheme": "scheme-4",
+        "show_view_all": false,
+        "columns_mobile": "2",
+        "swipe_on_mobile": true,
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
+    },
+    "featured_collection2": {
+      "type": "featured-collection",
+      "settings": {
+        "collection": "reel",
+        "products_to_show": 5,
+        "title": "New Arrivals",
+        "heading_size": "h1",
+        "description": "",
+        "show_description": false,
+        "description_style": "body",
+        "columns_desktop": 5,
+        "enable_desktop_slider": true,
+        "full_width": true,
+        "show_view_all": false,
+        "view_all_style": "solid",
+        "color_scheme": "",
+        "image_ratio": "adapt",
+        "image_shape": "default",
+        "show_secondary_image": false,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "bulk",
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "padding_top": 12,
+        "padding_bottom": 12
+      }
+    },
+    "video_XR4A7t": {
+      "type": "video",
+      "name": "t:sections.video.presets.name",
+      "settings": {
+        "heading": "Peralatan memancing premium untuk setiap petualangan. Jaminan kualitas dan performa terbaik untuk hasil tangkapan maksimal.",
+        "heading_size": "h2",
+        "enable_video_looping": true,
+        "video_url": "https://youtu.be/QPwc3fP30kE?si=qfIjkWY_WwDChZv4",
+        "cover_image": "shopify://shop_images/back.png",
+        "description": "",
+        "full_width": false,
+        "color_scheme": "scheme-1",
+        "padding_top": 0,
+        "padding_bottom": 4
+      }
+    },
+    "178841804060a40f9a": {
+      "type": "apps",
+      "settings": {
+        "include_margins": true
+      }
+    },
+    "1788335598e2bf758a": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_301c5a8_b97bJ8": {
+          "type": "ai_gen_block_301c5a8",
+          "settings": {
+            "heading": "Bagaimana Cara Kerjanya ?",
+            "heading_font": "arial_n4",
+            "heading_size": 26,
+            "desktop_width_percent": 100,
+            "section_padding": 20,
+            "card_radius": 30,
+            "section_background": "#f4f4f4",
+            "text_color": "#262626",
+            "description_color": "#5f6368",
+            "number_color": "#dfe2e5",
+            "active_tab_color": "#262626",
+            "inactive_tab_color": "#777777",
+            "accent_color": "#24b9c7",
+            "link_color": "#80620e",
+            "tab_1_name": "Cara Membeli",
+            "tab_2_name": "Cara Menjual",
+            "tab_3_name": "",
+            "tab_1_card_1_title": "Pilih produk",
+            "tab_1_card_1_description": "Temukan produk yang sesuai dengan kebutuhan Anda.",
+            "tab_1_card_1_icon": "shopify://shop_images/pilih.png",
+            "tab_1_card_1_link": "Lihat produk",
+            "tab_1_card_1_url": "",
+            "tab_1_card_2_title": "Tambahkan ke keranjang",
+            "tab_1_card_2_description": "Periksa pilihan dan tambahkan produk ke keranjang.",
+            "tab_1_card_2_icon": "shopify://shop_images/keranjang.png",
+            "tab_1_card_2_link": "Pelajari lebih lanjut",
+            "tab_1_card_2_url": "",
+            "tab_1_card_3_title": "Isi data pesanan",
+            "tab_1_card_3_description": "Lengkapi informasi pengiriman dengan benar.",
+            "tab_1_card_3_icon": "shopify://shop_images/data.png",
+            "tab_1_card_3_link": "Bantuan pesanan",
+            "tab_1_card_3_url": "",
+            "tab_1_card_4_title": "Selesaikan pembayaran",
+            "tab_1_card_4_description": "Pilih metode pembayaran dan tunggu pesanan diproses.",
+            "tab_1_card_4_icon": "shopify://shop_images/pembayaran.png",
+            "tab_1_card_4_link": "Metode pembayaran",
+            "tab_1_card_4_url": "",
+            "tab_2_card_1_title": "Daftar sebagai Reseller",
+            "tab_2_card_1_description": "Hubungi kami melalui WhatsApp atau email untuk mendaftar sebagai reseller BNS Fishing Store.",
+            "tab_2_card_1_icon": "shopify://shop_images/data.png",
+            "tab_2_card_1_link": "",
+            "tab_2_card_1_url": "",
+            "tab_2_card_2_title": "Pilih Produk",
+            "tab_2_card_2_description": "Pilih produk pancing yang ingin Anda jual dari katalog kami dengan harga reseller spesial.",
+            "tab_2_card_2_icon": "shopify://shop_images/pilih.png",
+            "tab_2_card_2_link": "",
+            "tab_2_card_2_url": "",
+            "tab_2_card_3_title": "Promosikan & Terima Order",
+            "tab_2_card_3_description": "Promosikan produk melalui media sosial, marketplace, atau toko Anda sendiri. Terima pesanan dari pelanggan Anda dan teruskan ke kami.",
+            "tab_2_card_3_icon": "shopify://shop_images/1077221.png",
+            "tab_2_card_3_link": "",
+            "tab_2_card_3_url": "",
+            "tab_2_card_4_title": "Kami Kirimkan & Dapatkan Keuntungan",
+            "tab_2_card_4_description": "Kami akan memproses dan mengirimkan pesanan langsung ke pelanggan Anda (dropship) atau ke alamat Anda. Nikmati margin keuntungan dari selisih harga reseller dan harga jual Anda.",
+            "tab_2_card_4_icon": "shopify://shop_images/images.jpg",
+            "tab_2_card_4_link": "",
+            "tab_2_card_4_url": "",
+            "tab_3_card_1_title": "",
+            "tab_3_card_1_description": "",
+            "tab_3_card_1_link": "",
+            "tab_3_card_1_url": "",
+            "tab_3_card_2_title": "",
+            "tab_3_card_2_description": "",
+            "tab_3_card_2_link": "",
+            "tab_3_card_2_url": "",
+            "tab_3_card_3_title": "",
+            "tab_3_card_3_description": "",
+            "tab_3_card_3_link": "",
+            "tab_3_card_3_url": "",
+            "tab_3_card_4_title": "",
+            "tab_3_card_4_description": "",
+            "tab_3_card_4_link": "",
+            "tab_3_card_4_url": ""
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_301c5a8_b97bJ8"
+      ],
+      "settings": {}
+    },
+    "rich_text_ggziL9": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_LDgqKn": {
+          "type": "heading",
+          "settings": {
+            "heading": "<strong>Why choose Us?</strong>",
+            "heading_size": "h2"
+          }
+        }
+      },
+      "block_order": [
+        "heading_LDgqKn"
+      ],
+      "name": "t:sections.rich-text.presets.name",
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "scheme-5",
+        "full_width": true,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "baitandstrike_benefits_E7wXyF": {
+      "type": "baitandstrike-benefits",
+      "blocks": {
+        "benefit_r3VRHU": {
+          "type": "benefit",
+          "settings": {
+            "icon": "🚚",
+            "title": "Pengiriman Cepat & Terjangkau",
+            "text": "Pesanan kamu akan kami proses dengan cepat menggunakan layanan pengiriman terpercaya ke seluruh Indonesia."
+          }
+        },
+        "benefit_pm8xEa": {
+          "type": "benefit",
+          "settings": {
+            "icon": "🔒",
+            "title": "Pembayaran Aman",
+            "text": "Nikmati berbagai metode pembayaran yang aman dan praktis untuk memudahkan setiap transaksi kamu."
+          }
+        },
+        "benefit_4NU7aT": {
+          "type": "benefit",
+          "settings": {
+            "icon": "🎣",
+            "title": "Dikelola Angler Berpengalaman",
+            "text": "Kami memahami kebutuhan pemancing karena kami juga memiliki pengalaman dan passion di dunia mancing."
+          }
+        },
+        "benefit_JkP9Aq": {
+          "type": "benefit",
+          "settings": {
+            "icon": "⭐",
+            "title": "Produk & Brand Pilihan",
+            "text": "Temukan berbagai perlengkapan mancing dari brand terpercaya untuk mendukung aktivitas memancing kamu."
+          }
+        },
+        "benefit_r9Mw4y": {
+          "type": "benefit",
+          "settings": {
+            "icon": "🎁",
+            "title": "Promo & Reward Pelanggan",
+            "text": "Dapatkan berbagai promo menarik dan keuntungan khusus untuk pelanggan setia BAITANDSTRIKE."
+          }
+        },
+        "benefit_rqyjkV": {
+          "type": "benefit",
+          "settings": {
+            "icon": "💰",
+            "title": "Harga Kompetitif",
+            "text": "Kami berusaha memberikan harga terbaik untuk berbagai kebutuhan alat pancing dan aksesoris kamu."
+          }
+        }
+      },
+      "block_order": [
+        "benefit_r3VRHU",
+        "benefit_pm8xEa",
+        "benefit_4NU7aT",
+        "benefit_JkP9Aq",
+        "benefit_r9Mw4y",
+        "benefit_rqyjkV"
+      ],
+      "name": "Bait & Strike Benefits",
+      "settings": {
+        "columns_desktop": 3,
+        "max_width": 1250,
+        "bg_color": "#3282c0",
+        "text_color": "#ffffff",
+        "subtext_color": "#e0f2fe",
+        "icon_bg_color": "#ffffff26",
+        "icon_hover_bg_color": "#ffffff40",
+        "padding_top": 55,
+        "padding_bottom": 55,
+        "padding_top_mobile": 40,
+        "padding_bottom_mobile": 40
+      }
+    },
+    "multicolumn1": {
+      "type": "multicolumn",
+      "blocks": {
+        "column7": {
+          "type": "column",
+          "settings": {
+            "title": "Snipermydream — Jakarta",
+            "text": "<p>⭐⭐⭐⭐⭐</p><h5>“Variasi 10 lbs. Kekuatannya sangat baik dan daya tahannya kuat. Senarnya memang terasa kaku, tetapi hampir tidak terlihat di dalam air. Tokonya amanah dan barang sesuai gambar. Jangan ragu untuk membeli—dijamin puas. Terima kasih untuk tokonya. Semoga semakin maju dan sukses. 🤲”</h5>",
+            "link_label": "Shop now",
+            "link": "shopify://collections/all"
+          }
+        },
+        "column8": {
+          "type": "column",
+          "settings": {
+            "title": "Dimas — Bandung",
+            "text": "<p>⭐⭐⭐⭐⭐</p><h5>Desain keren, modern, dan mantap. Umpan ini saya beli untuk memancing toman. Ini pertama kalinya saya mencoba umpan jenis ini, semoga pengalaman memakainya menyenangkan.</h5><h5></h5>",
+            "link_label": "Shop now",
+            "link": "shopify://collections/all"
+          }
+        },
+        "column9": {
+          "type": "column",
+          "settings": {
+            "title": "&nbsp;izhar_alfarezi &nbsp;— Surabaya",
+            "text": "<p>⭐⭐⭐⭐⭐</p><h5>“Ukuran: sesuaiKegunaan: mancingToko rekom buat yg mau beli..barang sesuai dgn pesanan respon pengiriman cepat dan packing rapi dgn bubblew wrap..👍👍👍<br/><br/>”</h5>",
+            "link_label": "Shop now",
+            "link": "shopify://collections/all"
+          }
+        },
+        "column10": {
+          "type": "column",
+          "settings": {
+            "title": "Andi — Yogyakarta",
+            "text": "<p>⭐⭐⭐⭐⭐</p><h5>“Kegunaan: ideal untuk castingBerat: ringan long cast satu tanganKeaslian: kualitas originalMantab sesuai ekspitasi, enak banget di gunakan buat casting gabusan dan lainnya...<br/>Terimakasih...<br/><br/>.”</h5>",
+            "link_label": "Shop now",
+            "link": "shopify://collections/all"
+          }
+        }
+      },
+      "block_order": [
+        "column7",
+        "column8",
+        "column9",
+        "column10"
+      ],
+      "settings": {
+        "title": "",
+        "heading_size": "h1",
+        "image_width": "full",
+        "image_ratio": "adapt",
+        "button_label": "",
+        "button_link": "",
+        "columns_desktop": 4,
+        "column_alignment": "left",
+        "background_style": "none",
+        "color_scheme": "scheme-2",
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
+    "17884090182990c569": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_9dd41b0_fRnrwE": {
+          "type": "ai_gen_block_9dd41b0",
+          "settings": {
+            "phone_number": "6287795361519",
+            "prefilled_message": "Halo, saya ingin bertanya tentang produk di toko Anda.",
+            "accessibility_label": "Chat with us on WhatsApp",
+            "button_position": "left",
+            "show_desktop": true,
+            "show_mobile": true,
+            "bubble_text": "Ada yang bisa kami bantu?",
+            "bubble_delay": 3,
+            "desktop_width_percent": 100,
+            "button_size": 60,
+            "bottom_offset": 12,
+            "side_offset": 12,
+            "mobile_button_size": 56,
+            "mobile_bottom_offset": 20,
+            "mobile_side_offset": 20
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_9dd41b0_fRnrwE"
+      ],
+      "settings": {}
+    },
+    "1788492755a3618ade": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_c8b38e1_4hegfU": {
+          "type": "ai_gen_block_c8b38e1",
+          "settings": {
+            "desktop_width_percent": 100,
+            "translate_distance": 16,
+            "transition_duration": 500,
+            "observer_threshold": "0.1"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_c8b38e1_4hegfU"
+      ],
+      "settings": {}
+    },
+    "1789108850595a5864": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_b2970cf_TLeAhf": {
+          "type": "ai_gen_block_b2970cf",
+          "name": "Quick order cart bridge",
+          "settings": {
+            "desktop_width_percent": 100
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_b2970cf_TLeAhf"
+      ],
+      "settings": {}
+    },
+    "bns_partner_band": {
+      "type": "custom-liquid",
+      "settings": {
+        "custom_liquid": "{% render 'bns-partner-band', link: '/account/register', text: 'Daftar sebagai mitra B2B' %}",
+        "color_scheme": "scheme-1",
+        "padding_top": 40,
+        "padding_bottom": 40
+      }
+    }
+  },
+  "order": [
+    "image_banner",
+    "multicolumn",
+    "rich_text",
+    "featured_collection1",
+    "collection_list",
+    "featured_collection2",
+    "video_XR4A7t",
+    "178841804060a40f9a",
+    "1788335598e2bf758a",
+    "rich_text_ggziL9",
+    "baitandstrike_benefits_E7wXyF",
+    "multicolumn1",
+    "bns_partner_band",
+    "17884090182990c569",
+    "1788492755a3618ade",
+    "1789108850595a5864"
+  ]
+}

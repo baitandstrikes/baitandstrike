@@ -1,0 +1,541 @@
+{%- liquid
+  assign bns_weight = cart.total_weight
+  if bns_weight <= 0
+    assign bns_weight = section.settings.default_weight
+  endif
+-%}
+
+{%- style -%}
+  #BnsJntCalculator-{{ section.id }} {
+    --bns-blue: {{ section.settings.blue_color }};
+    --bns-yellow: {{ section.settings.yellow_color }};
+    --bns-text: {{ section.settings.text_color }};
+    --bns-bg: {{ section.settings.background_color }};
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  #BnsJntCalculator-{{ section.id }} .bns-jnt__container {
+    width: min({{ section.settings.max_width }}px, calc(100% - 3rem));
+    margin: 0 auto;
+  }
+
+  #BnsJntCalculator-{{ section.id }} .bns-jnt__card {
+    padding: clamp(1.8rem, 4vw, 3rem);
+    border: 1px solid color-mix(in srgb, var(--bns-blue) 28%, transparent);
+    border-radius: 22px;
+    background: linear-gradient(135deg, color-mix(in srgb, var(--bns-blue) 8%, var(--bns-bg)), color-mix(in srgb, var(--bns-yellow) 10%, var(--bns-bg)));
+    color: var(--bns-text);
+    box-shadow: 0 18px 45px rgba(20, 33, 43, 0.08);
+  }
+
+  #BnsJntCalculator-{{ section.id }} .bns-jnt__head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1.6rem;
+    margin-bottom: 2rem;
+  }
+
+  #BnsJntCalculator-{{ section.id }} .bns-jnt__title {
+    margin: 0 0 0.5rem;
+    color: var(--bns-text);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    line-height: 1.15;
+  }
+
+  #BnsJntCalculator-{{ section.id }} .bns-jnt__subtitle {
+    max-width: 58rem;
+    margin: 0;
+    opacity: 0.72;
+    font-size: 1.4rem;
+    line-height: 1.55;
+  }
+
+  #BnsJntCalculator-{{ section.id }} .bns-jnt__weight {
+    flex: 0 0 auto;
+    padding: 0.8rem 1.2rem;
+    border-radius: 999px;
+    background: var(--bns-blue);
+    color: #fff;
+    font-size: 1.25rem;
+    font-weight: 800;
+  }
+
+  #BnsJntCalculator-{{ section.id }} .bns-jnt__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(180px, 0.35fr);
+    gap: 1.2rem;
+  }
+
+  #BnsJntCalculator-{{ section.id }} .bns-jnt__field {
+    position: relative;
+  }
+
+  #BnsJntCalculator-{{ section.id }} .bns-jnt__label {
+    display: block;
+    margin-bottom: 0.7rem;
+    font-size: 1.3rem;
+    font-weight: 800;
+  }
+
+  #BnsJntCalculator-{{ section.id }} .bns-jnt__input,
+  #BnsJntCalculator-{{ section.id }} .bns-jnt__courier {
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 5rem;
+    padding: 0 1.4rem;
+    border: 1px solid rgba(20, 33, 43, 0.22);
+    border-radius: 12px;
+    background: #fff;
+    color: #14212b;
+    font: inherit;
+  }
+
+  #BnsJntCalculator-{{ section.id }} .bns-jnt__courier {
+    display: flex;
+    align-items: center;
+    font-weight: 800;
+  }
+
+  #BnsJntCalculator-{{ section.id }} .bns-jnt__input:focus {
+    border-color: var(--bns-blue);
+    outline: 3px solid color-mix(in srgb, var(--bns-yellow) 70%, transparent);
+    outline-offset: 2px;
+  }
+
+  #BnsJntCalculator-{{ section.id }} .bns-jnt__suggestions {
+    position: absolute;
+    z-index: 20;
+    top: calc(100% + 7px);
+    right: 0;
+    left: 0;
+    overflow: auto;
+    max-height: 260px;
+    margin: 0;
+    padding: 0.6rem;
+    border: 1px solid rgba(20, 33, 43, 0.16);
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 18px 38px rgba(20, 33, 43, 0.16);
+    list-style: none;
+  }
+
+  #BnsJntCalculator-{{ section.id }} .bns-jnt__suggestions[hidden] {
+    display: none;
+  }
+
+  #BnsJntCalculator-{{ section.id }} .bns-jnt__suggestion {
+    width: 100%;
+    padding: 1rem;
+    border: 0;
+    border-radius: 8px;
+    background: transparent;
+    color: #14212b;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  #BnsJntCalculator-{{ section.id }} .bns-jnt__suggestion:hover,
+  #BnsJntCalculator-{{ section.id }} .bns-jnt__suggestion:focus-visible {
+    background: color-mix(in srgb, var(--bns-blue) 10%, #fff);
+    outline: none;
+  }
+
+  #BnsJntCalculator-{{ section.id }} .bns-jnt__button {
+    width: 100%;
+    min-height: 5.2rem;
+    margin-top: 1.5rem;
+    border: 0;
+    border-radius: 12px;
+    background: var(--bns-yellow);
+    color: #14212b;
+    font-size: 1.5rem;
+    font-weight: 900;
+    cursor: pointer;
+    transition: transform 180ms ease, filter 180ms ease;
+  }
+
+  #BnsJntCalculator-{{ section.id }} .bns-jnt__button:hover {
+    filter: brightness(0.96);
+    transform: translateY(-1px);
+  }
+
+  #BnsJntCalculator-{{ section.id }} .bns-jnt__button:disabled {
+    cursor: not-allowed;
+    filter: grayscale(0.3);
+    opacity: 0.58;
+    transform: none;
+  }
+
+  #BnsJntCalculator-{{ section.id }} .bns-jnt__status {
+    min-height: 2rem;
+    margin: 1rem 0 0;
+    opacity: 0.76;
+    font-size: 1.3rem;
+  }
+
+  #BnsJntCalculator-{{ section.id }} .bns-jnt__status[data-type='error'] {
+    color: #b42318;
+    opacity: 1;
+  }
+
+  #BnsJntCalculator-{{ section.id }} .bns-jnt__results {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin-top: 1.3rem;
+  }
+
+  #BnsJntCalculator-{{ section.id }} .bns-jnt__rate {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0.7rem 1rem;
+    padding: 1.4rem;
+    border: 1px solid color-mix(in srgb, var(--bns-blue) 22%, transparent);
+    border-radius: 14px;
+    background: #fff;
+    color: #14212b;
+  }
+
+  #BnsJntCalculator-{{ section.id }} .bns-jnt__service,
+  #BnsJntCalculator-{{ section.id }} .bns-jnt__price {
+    font-weight: 900;
+  }
+
+  #BnsJntCalculator-{{ section.id }} .bns-jnt__price {
+    color: #17547f;
+  }
+
+  #BnsJntCalculator-{{ section.id }} .bns-jnt__eta {
+    grid-column: 1 / -1;
+    opacity: 0.68;
+    font-size: 1.25rem;
+  }
+
+  @media screen and (min-width: 750px) {
+    #BnsJntCalculator-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    #BnsJntCalculator-{{ section.id }} .bns-jnt__head {
+      display: block;
+    }
+
+    #BnsJntCalculator-{{ section.id }} .bns-jnt__weight {
+      display: inline-block;
+      margin-top: 1rem;
+    }
+
+    #BnsJntCalculator-{{ section.id }} .bns-jnt__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+{%- endstyle -%}
+
+<section
+  id="BnsJntCalculator-{{ section.id }}"
+  class="bns-jnt"
+  data-bns-jnt-calculator
+  data-endpoint="{{ section.settings.proxy_url | default: 'https://bns-rajaongkir.baitstrikeshopify.workers.dev/' | escape }}"
+  data-weight="{{ bns_weight }}"
+>
+  <div class="bns-jnt__container">
+    <div class="bns-jnt__card">
+      <div class="bns-jnt__head">
+        <div>
+          <h2 class="bns-jnt__title">{{ section.settings.heading | escape }}</h2>
+          <p class="bns-jnt__subtitle">{{ section.settings.subtitle | escape }}</p>
+        </div>
+        <span class="bns-jnt__weight">Berat {{ bns_weight | divided_by: 1000.0 | round: 2 }} kg</span>
+      </div>
+
+      <div class="bns-jnt__grid">
+        <div class="bns-jnt__field">
+          <label class="bns-jnt__label" for="BnsJntDestination-{{ section.id }}">Kecamatan/kota tujuan</label>
+          <input
+            class="bns-jnt__input"
+            id="BnsJntDestination-{{ section.id }}"
+            type="search"
+            placeholder="Contoh: Grogol Petamburan"
+            autocomplete="off"
+            data-destination-input
+          >
+          <input type="hidden" data-destination-id>
+          <ul class="bns-jnt__suggestions" data-suggestions hidden></ul>
+        </div>
+
+        <div class="bns-jnt__field">
+          <span class="bns-jnt__label">Ekspedisi</span>
+          <div class="bns-jnt__courier" aria-label="Ekspedisi J&amp;T Express">J&amp;T Express</div>
+        </div>
+      </div>
+
+      <button class="bns-jnt__button" type="button" data-check-rate disabled>
+        {{ section.settings.button_label | escape }}
+      </button>
+      <p class="bns-jnt__status" data-status aria-live="polite"></p>
+      <div class="bns-jnt__results" data-results aria-live="polite"></div>
+    </div>
+  </div>
+</section>
+
+<script>
+  (() => {
+    const root = document.getElementById('BnsJntCalculator-{{ section.id }}');
+    if (!root || root.dataset.initialized === 'true') return;
+    root.dataset.initialized = 'true';
+
+    const endpoint = root.dataset.endpoint.trim();
+    const weight = Math.max(1, Number(root.dataset.weight || 1));
+    const input = root.querySelector('[data-destination-input]');
+    const destinationId = root.querySelector('[data-destination-id]');
+    const suggestions = root.querySelector('[data-suggestions]');
+    const button = root.querySelector('[data-check-rate]');
+    const status = root.querySelector('[data-status]');
+    const results = root.querySelector('[data-results]');
+    let timer;
+    let controller;
+
+    const setStatus = (message, type = '') => {
+      status.textContent = message;
+      status.dataset.type = type;
+    };
+
+    const money = (value) => new Intl.NumberFormat('id-ID', {
+      style: 'currency',
+      currency: 'IDR',
+      maximumFractionDigits: 0
+    }).format(Number(value || 0));
+
+    const clearSuggestions = () => {
+      suggestions.replaceChildren();
+      suggestions.hidden = true;
+    };
+
+    const searchDestination = async (query) => {
+      controller?.abort();
+      controller = new AbortController();
+      setStatus('Mencari wilayah tujuan…');
+
+      try {
+        const url = new URL(endpoint, window.location.origin);
+        url.searchParams.set('action', 'search');
+        url.searchParams.set('query', query);
+        const response = await fetch(url, {
+          headers: { Accept: 'application/json' },
+          signal: controller.signal
+        });
+        const payload = await response.json();
+        if (!response.ok) throw new Error(payload.error || 'Wilayah tujuan tidak dapat dimuat.');
+
+        const locations = Array.isArray(payload.data) ? payload.data : [];
+        clearSuggestions();
+        if (!locations.length) throw new Error('Wilayah tidak ditemukan.');
+
+        locations.slice(0, 10).forEach((location) => {
+          if (!location.id || !location.label) return;
+          const item = document.createElement('li');
+          const option = document.createElement('button');
+          option.type = 'button';
+          option.className = 'bns-jnt__suggestion';
+          option.textContent = location.label;
+          option.addEventListener('click', () => {
+            input.value = location.label;
+            destinationId.value = location.id;
+            button.disabled = false;
+            clearSuggestions();
+            setStatus('Tujuan dipilih. Silakan cek ongkir J&T.');
+          });
+          item.append(option);
+          suggestions.append(item);
+        });
+
+        suggestions.hidden = suggestions.children.length === 0;
+        if (!suggestions.hidden) setStatus('Pilih wilayah dari daftar.');
+      } catch (error) {
+        if (error.name !== 'AbortError') setStatus(error.message || 'Pencarian wilayah gagal.', 'error');
+      }
+    };
+
+    input.addEventListener('input', () => {
+      destinationId.value = '';
+      button.disabled = true;
+      results.replaceChildren();
+      clearTimeout(timer);
+      const query = input.value.trim();
+      if (query.length < 3) {
+        clearSuggestions();
+        setStatus(query ? 'Ketik minimal 3 karakter.' : '');
+        return;
+      }
+      timer = window.setTimeout(() => searchDestination(query), 450);
+    });
+
+    button.addEventListener('click', async () => {
+      if (!destinationId.value) return;
+      button.disabled = true;
+      results.replaceChildren();
+      setStatus('Menghitung ongkir J&T…');
+
+      try {
+        const response = await fetch(endpoint, {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            action: 'cost',
+            destination: destinationId.value,
+            courier: 'jnt',
+            weight
+          })
+        });
+        const payload = await response.json();
+        if (!response.ok) throw new Error(payload.error || 'Tarif ongkir tidak dapat dimuat.');
+
+        const rates = Array.isArray(payload.data) ? payload.data : [];
+        if (!rates.length) throw new Error('Layanan J&T tidak tersedia untuk tujuan ini.');
+
+        rates.forEach((rate) => {
+          const card = document.createElement('div');
+          card.className = 'bns-jnt__rate';
+
+          const service = document.createElement('span');
+          service.className = 'bns-jnt__service';
+          service.textContent = rate.service || rate.description || 'J&T Express';
+
+          const price = document.createElement('span');
+          price.className = 'bns-jnt__price';
+          price.textContent = money(rate.cost || 0);
+
+          const eta = document.createElement('span');
+          eta.className = 'bns-jnt__eta';
+          eta.textContent = `Estimasi ${rate.etd || '-'} hari`;
+
+          card.append(service, price, eta);
+          results.append(card);
+        });
+
+        setStatus(`${rates.length} layanan J&T ditemukan.`);
+      } catch (error) {
+        setStatus(error.message || 'Perhitungan ongkir gagal.', 'error');
+      } finally {
+        button.disabled = !destinationId.value;
+      }
+    });
+
+    document.addEventListener('click', (event) => {
+      if (!root.contains(event.target)) clearSuggestions();
+    });
+
+    if (!endpoint) setStatus('URL proxy belum diatur.', 'error');
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "BNS — Cek Ongkir J&T",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Judul",
+      "default": "Cek estimasi ongkir"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Deskripsi",
+      "default": "Masukkan kecamatan tujuan untuk melihat perkiraan ongkir J&T Express."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Teks tombol",
+      "default": "Cek ongkir sekarang"
+    },
+    {
+      "type": "url",
+      "id": "proxy_url",
+      "label": "URL proxy RajaOngkir"
+    },
+    {
+      "type": "range",
+      "id": "default_weight",
+      "min": 100,
+      "max": 9900,
+      "step": 100,
+      "unit": "g",
+      "label": "Berat saat cart kosong",
+      "default": 1000
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 400,
+      "max": 1200,
+      "step": 20,
+      "unit": "px",
+      "label": "Lebar maksimum",
+      "default": 760
+    },
+    {
+      "type": "color",
+      "id": "blue_color",
+      "label": "Warna biru",
+      "default": "#3282C0"
+    },
+    {
+      "type": "color",
+      "id": "yellow_color",
+      "label": "Warna kuning",
+      "default": "#FCDD16"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Warna teks",
+      "default": "#14212B"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Warna latar",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Jarak atas",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Jarak bawah",
+      "default": 36
+    }
+  ],
+  "presets": [
+    {
+      "name": "BNS — Cek Ongkir J&T"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,937 @@
+
+{% comment %}
+  Cart Drawer Custom
+  - AJAX Shopify Cart API
+  - Slide in from right
+  - Overlay backdrop
+  - Remove cart item
+  - Checkout via WhatsApp
+  - Intercepts Shopify cart links/buttons
+{% endcomment %}
+
+{% assign cart_drawer_id = section.id | replace: '-', '' | replace: '_', '' | downcase %}
+
+{% style %}
+  .cart-drawer-custom-{{ cart_drawer_id }} {
+    display: block;
+    width: 100%;
+  }
+
+  .cart-drawer-custom-backdrop-{{ cart_drawer_id }} {
+    position: fixed;
+    inset: 0;
+    z-index: 9998;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition:
+      opacity 0.3s ease,
+      visibility 0.3s ease;
+  }
+
+  .cart-drawer-custom-panel-{{ cart_drawer_id }} {
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 9999;
+
+    display: flex;
+    flex-direction: column;
+
+    width: min(420px, 92vw);
+    height: 100dvh;
+
+    background: {{ section.settings.drawer_background }};
+    color: {{ section.settings.drawer_text }};
+
+    box-shadow: -8px 0 24px rgba(0, 0, 0, 0.18);
+
+    transform: translateX(100%);
+    visibility: hidden;
+
+    transition:
+      transform 0.3s ease,
+      visibility 0.3s ease;
+  }
+
+  .cart-drawer-custom-{{ cart_drawer_id }}.is-open
+    .cart-drawer-custom-backdrop-{{ cart_drawer_id }} {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  .cart-drawer-custom-{{ cart_drawer_id }}.is-open
+    .cart-drawer-custom-panel-{{ cart_drawer_id }} {
+    transform: translateX(0);
+    visibility: visible;
+  }
+
+  /* HEADER */
+
+  .cart-drawer-custom-header-{{ cart_drawer_id }} {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+
+    padding: 20px 24px;
+
+    border-bottom: 1px solid rgba(43, 44, 45, 0.15);
+    flex-shrink: 0;
+  }
+
+  .cart-drawer-custom-title-{{ cart_drawer_id }} {
+    margin: 0;
+    color: inherit;
+    font-size: 22px;
+    line-height: 1.2;
+    font-weight: 700;
+  }
+
+  .cart-drawer-custom-close-{{ cart_drawer_id }} {
+    display: grid;
+    place-items: center;
+
+    width: 40px;
+    height: 40px;
+
+    padding: 0;
+
+    border: 1px solid currentColor;
+    border-radius: {{ section.settings.button_radius }}px;
+
+    background: transparent;
+    color: inherit;
+
+    cursor: pointer;
+
+    font-size: 28px;
+    line-height: 1;
+
+    transition:
+      background 0.2s ease,
+      opacity 0.2s ease;
+  }
+
+  .cart-drawer-custom-close-{{ cart_drawer_id }}:hover {
+    background: rgba(0, 0, 0, 0.06);
+  }
+
+  /* CONTENT */
+
+  .cart-drawer-custom-content-{{ cart_drawer_id }} {
+    flex: 1;
+    overflow-y: auto;
+
+    padding: 8px 24px 20px;
+
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .cart-drawer-custom-status-{{ cart_drawer_id }} {
+    margin: 30px 0;
+    text-align: center;
+    color: inherit;
+    opacity: 0.75;
+    font-size: 14px;
+  }
+
+  /* ITEM */
+
+  .cart-drawer-custom-item-{{ cart_drawer_id }} {
+    display: grid;
+
+    grid-template-columns: 72px minmax(0, 1fr) auto;
+
+    gap: 12px;
+
+    align-items: start;
+
+    padding: 16px 0;
+
+    border-bottom: 1px solid rgba(43, 44, 45, 0.12);
+  }
+
+  .cart-drawer-custom-item-image-{{ cart_drawer_id }} {
+    width: 72px;
+    height: 72px;
+
+    object-fit: cover;
+
+    border-radius: 6px;
+
+    background: #eeeeee;
+  }
+
+  .cart-drawer-custom-item-info-{{ cart_drawer_id }} {
+    min-width: 0;
+  }
+
+  .cart-drawer-custom-item-name-{{ cart_drawer_id }} {
+    margin: 0 0 6px;
+
+    color: inherit;
+
+    font-size: 14px;
+    line-height: 1.35;
+    font-weight: 600;
+
+    word-break: break-word;
+  }
+
+  .cart-drawer-custom-item-variant-{{ cart_drawer_id }} {
+    margin: 0 0 5px;
+
+    font-size: 12px;
+    line-height: 1.4;
+
+    opacity: 0.65;
+  }
+
+  .cart-drawer-custom-item-meta-{{ cart_drawer_id }} {
+    margin: 0 0 5px;
+
+    font-size: 13px;
+    line-height: 1.4;
+
+    opacity: 0.75;
+  }
+
+  .cart-drawer-custom-item-price-{{ cart_drawer_id }} {
+    margin: 0 0 8px;
+
+    font-size: 14px;
+    line-height: 1.4;
+    font-weight: 600;
+  }
+
+  /* REMOVE */
+
+  .cart-drawer-custom-remove-{{ cart_drawer_id }} {
+    display: inline-flex;
+    align-items: center;
+
+    padding: 0;
+
+    border: 0;
+
+    background: transparent;
+
+    color: #e53935;
+
+    font-size: 12px;
+    line-height: 1.4;
+
+    text-decoration: underline;
+
+    cursor: pointer;
+  }
+
+  .cart-drawer-custom-remove-{{ cart_drawer_id }}:hover {
+    color: #b71c1c;
+  }
+
+  .cart-drawer-custom-remove-{{ cart_drawer_id }}:disabled {
+    opacity: 0.5;
+    cursor: wait;
+  }
+
+  /* FOOTER */
+
+  .cart-drawer-custom-footer-{{ cart_drawer_id }} {
+    flex-shrink: 0;
+
+    padding: 18px 24px 24px;
+
+    border-top: 1px solid rgba(43, 44, 45, 0.15);
+
+    background: {{ section.settings.drawer_background }};
+  }
+
+  .cart-drawer-custom-total-{{ cart_drawer_id }} {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 12px;
+
+    margin-bottom: 16px;
+
+    color: inherit;
+
+    font-size: 16px;
+    line-height: 1.4;
+    font-weight: 700;
+  }
+
+  .cart-drawer-custom-checkout-{{ cart_drawer_id }} {
+    display: block;
+
+    width: 100%;
+
+    padding: 14px 20px;
+
+    border: 0;
+
+    border-radius: {{ section.settings.button_radius }}px;
+
+    background: {{ section.settings.button_background }};
+    color: {{ section.settings.button_text }};
+
+    text-align: center;
+    text-decoration: none;
+
+    cursor: pointer;
+
+    font: inherit;
+    font-size: 15px;
+    font-weight: 700;
+
+    transition:
+      opacity 0.2s ease,
+      transform 0.2s ease;
+  }
+
+  .cart-drawer-custom-checkout-{{ cart_drawer_id }}:hover {
+    opacity: 0.9;
+  }
+
+  .cart-drawer-custom-checkout-{{ cart_drawer_id }}:active {
+    transform: scale(0.99);
+  }
+
+  .cart-drawer-custom-checkout-{{ cart_drawer_id }}:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
+  /* FOCUS */
+
+  .cart-drawer-custom-close-{{ cart_drawer_id }}:focus-visible,
+  .cart-drawer-custom-checkout-{{ cart_drawer_id }}:focus-visible,
+  .cart-drawer-custom-remove-{{ cart_drawer_id }}:focus-visible {
+    outline: 3px solid #1a73e8;
+    outline-offset: 3px;
+  }
+
+  /* MOBILE */
+
+  @media screen and (max-width: 749px) {
+    .cart-drawer-custom-panel-{{ cart_drawer_id }} {
+      width: min(420px, 94vw);
+    }
+
+    .cart-drawer-custom-header-{{ cart_drawer_id }} {
+      padding: 18px 20px;
+    }
+
+    .cart-drawer-custom-content-{{ cart_drawer_id }} {
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+
+    .cart-drawer-custom-footer-{{ cart_drawer_id }} {
+      padding-left: 20px;
+      padding-right: 20px;
+      padding-bottom: 20px;
+    }
+  }
+
+  /* REDUCED MOTION */
+
+  @media (prefers-reduced-motion: reduce) {
+    .cart-drawer-custom-backdrop-{{ cart_drawer_id }},
+    .cart-drawer-custom-panel-{{ cart_drawer_id }} {
+      transition: none;
+    }
+  }
+{% endstyle %}
+
+<cart-drawer-custom-{{ cart_drawer_id }}
+  class="cart-drawer-custom-{{ cart_drawer_id }}"
+  {{ section.shopify_attributes }}
+>
+
+  <!-- OVERLAY -->
+  <div
+    class="cart-drawer-custom-backdrop-{{ cart_drawer_id }}"
+    data-cart-drawer-backdrop
+  ></div>
+
+  <!-- DRAWER -->
+  <aside
+    class="cart-drawer-custom-panel-{{ cart_drawer_id }}"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="cart-drawer-custom-title-{{ cart_drawer_id }}"
+    aria-hidden="true"
+  >
+
+    <!-- HEADER -->
+    <div class="cart-drawer-custom-header-{{ cart_drawer_id }}">
+
+      <h2
+        id="cart-drawer-custom-title-{{ cart_drawer_id }}"
+        class="cart-drawer-custom-title-{{ cart_drawer_id }}"
+      >
+        {{ section.settings.title }}
+      </h2>
+
+      <button
+        type="button"
+        class="cart-drawer-custom-close-{{ cart_drawer_id }}"
+        data-cart-drawer-close
+        aria-label="Tutup keranjang"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+
+    </div>
+
+    <!-- CART CONTENT -->
+    <div
+      class="cart-drawer-custom-content-{{ cart_drawer_id }}"
+      data-cart-drawer-content
+    >
+      <p class="cart-drawer-custom-status-{{ cart_drawer_id }}">
+        Memuat keranjang...
+      </p>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="cart-drawer-custom-footer-{{ cart_drawer_id }}">
+
+      <div class="cart-drawer-custom-total-{{ cart_drawer_id }}">
+        <span>Total</span>
+
+        <span data-cart-drawer-total>
+          Rp0
+        </span>
+      </div>
+
+      <button
+        type="button"
+        class="cart-drawer-custom-checkout-{{ cart_drawer_id }}"
+        data-cart-drawer-whatsapp
+        disabled
+      >
+        {{ section.settings.checkout_label }}
+      </button>
+
+    </div>
+
+  </aside>
+
+</cart-drawer-custom-{{ cart_drawer_id }}>
+
+<script>
+(function() {
+
+  const elementName = 'cart-drawer-custom-{{ cart_drawer_id }}';
+
+  if (customElements.get(elementName)) {
+    return;
+  }
+
+  class CartDrawerCustom extends HTMLElement {
+
+    constructor() {
+      super();
+
+      this.cartData = null;
+      this.lastActiveElement = null;
+    }
+
+    connectedCallback() {
+
+      this.drawer = this.querySelector('[role="dialog"]');
+      this.content = this.querySelector('[data-cart-drawer-content]');
+      this.total = this.querySelector('[data-cart-drawer-total]');
+      this.checkoutButton = this.querySelector('[data-cart-drawer-whatsapp]');
+      this.closeButton = this.querySelector('[data-cart-drawer-close]');
+      this.backdrop = this.querySelector('[data-cart-drawer-backdrop]');
+
+      if (!this.drawer) {
+        return;
+      }
+
+      this.closeButton.addEventListener('click', () => {
+        this.close();
+      });
+
+      this.backdrop.addEventListener('click', () => {
+        this.close();
+      });
+
+      this.checkoutButton.addEventListener('click', () => {
+        this.checkoutToWhatsApp();
+      });
+
+      /*
+       * REMOVE ITEM
+       */
+      this.content.addEventListener('click', (event) => {
+
+        const removeButton = event.target.closest('[data-remove-key]');
+
+        if (!removeButton) {
+          return;
+        }
+
+        const key = removeButton.getAttribute('data-remove-key');
+
+        if (key) {
+          this.removeItem(key, removeButton);
+        }
+
+      });
+
+      /*
+       * INTERCEPT CART BUTTON
+       */
+      document.addEventListener('click', (event) => {
+
+        const trigger = event.target.closest(
+          'a[href="/cart"],' +
+          'a[href="/cart/"],' +
+          'a[href*="/cart?"],' +
+          '[data-cart-link],' +
+          '[data-cart-drawer-trigger],' +
+          '.header__icon--cart,' +
+          'button[name="cart"]'
+        );
+
+        if (!trigger) {
+          return;
+        }
+
+        /*
+         * Jangan intercept jika klik berasal
+         * dari dalam drawer sendiri.
+         */
+        if (this.contains(trigger)) {
+          return;
+        }
+
+        event.preventDefault();
+        event.stopPropagation();
+
+        this.open(trigger);
+
+      }, true);
+
+      /*
+       * ESC CLOSE
+       */
+      document.addEventListener('keydown', (event) => {
+
+        if (
+          event.key === 'Escape' &&
+          this.classList.contains('is-open')
+        ) {
+          this.close();
+        }
+
+      });
+
+      /*
+       * Refresh jika cart berubah
+       */
+      document.addEventListener('cart:refresh', () => {
+
+        if (this.classList.contains('is-open')) {
+          this.loadCart();
+        }
+
+      });
+
+    }
+
+    /*
+     * OPEN DRAWER
+     */
+    async open(trigger) {
+
+      this.lastActiveElement = trigger || document.activeElement;
+
+      this.classList.add('is-open');
+
+      this.drawer.setAttribute('aria-hidden', 'false');
+
+      document.documentElement.style.overflow = 'hidden';
+      document.body.style.overflow = 'hidden';
+
+      this.content.innerHTML =
+        '<p class="cart-drawer-custom-status-{{ cart_drawer_id }}">Memuat keranjang...</p>';
+
+      await this.loadCart();
+
+      setTimeout(() => {
+
+        if (this.closeButton) {
+          this.closeButton.focus();
+        }
+
+      }, 50);
+
+    }
+
+    /*
+     * CLOSE DRAWER
+     */
+    close() {
+
+      this.classList.remove('is-open');
+
+      this.drawer.setAttribute('aria-hidden', 'true');
+
+      document.documentElement.style.overflow = '';
+      document.body.style.overflow = '';
+
+      if (
+        this.lastActiveElement &&
+        typeof this.lastActiveElement.focus === 'function'
+      ) {
+        try {
+          this.lastActiveElement.focus();
+        } catch (error) {}
+      }
+
+    }
+
+    /*
+     * LOAD CART
+     */
+    async loadCart() {
+
+      try {
+
+        const response = await fetch(
+          window.Shopify.routes.root + 'cart.js',
+          {
+            method: 'GET',
+            headers: {
+              'Accept': 'application/json'
+            },
+            cache: 'no-store'
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error('Cart request failed');
+        }
+
+        this.cartData = await response.json();
+
+        this.render(this.cartData);
+
+      } catch (error) {
+
+        console.error('Cart Drawer Error:', error);
+
+        this.content.innerHTML =
+          '<p class="cart-drawer-custom-status-{{ cart_drawer_id }}">Keranjang gagal dimuat. Silakan coba lagi.</p>';
+
+        this.checkoutButton.disabled = true;
+
+      }
+
+    }
+
+    /*
+     * RENDER CART
+     */
+    render(cart) {
+
+      this.total.textContent = this.money(cart.total_price);
+
+      if (!cart.items || cart.items.length === 0) {
+
+        this.content.innerHTML =
+          '<p class="cart-drawer-custom-status-{{ cart_drawer_id }}">Keranjang Anda masih kosong.</p>';
+
+        this.checkoutButton.disabled = true;
+
+        return;
+      }
+
+      this.checkoutButton.disabled = false;
+
+      this.content.innerHTML = cart.items.map((item) => {
+
+        const image = item.featured_image
+          ? item.featured_image.url
+          : (item.image || '');
+
+        const variant = item.variant_title
+          ? `<p class="cart-drawer-custom-item-variant-{{ cart_drawer_id }}">
+              ${this.escape(item.variant_title)}
+             </p>`
+          : '';
+
+        return `
+          <article class="cart-drawer-custom-item-{{ cart_drawer_id }}">
+
+            <img
+              class="cart-drawer-custom-item-image-{{ cart_drawer_id }}"
+              src="${this.escape(image)}"
+              alt="${this.escape(item.product_title)}"
+              loading="lazy"
+            >
+
+            <div class="cart-drawer-custom-item-info-{{ cart_drawer_id }}">
+
+              <h3 class="cart-drawer-custom-item-name-{{ cart_drawer_id }}">
+                ${this.escape(item.product_title)}
+              </h3>
+
+              ${variant}
+
+              <p class="cart-drawer-custom-item-meta-{{ cart_drawer_id }}">
+                Jumlah: ${item.quantity}
+              </p>
+
+              <p class="cart-drawer-custom-item-price-{{ cart_drawer_id }}">
+                ${this.money(item.final_line_price)}
+              </p>
+
+              <button
+                type="button"
+                class="cart-drawer-custom-remove-{{ cart_drawer_id }}"
+                data-remove-key="${this.escape(item.key)}"
+              >
+                Hapus
+              </button>
+
+            </div>
+
+          </article>
+        `;
+
+      }).join('');
+
+    }
+
+    /*
+     * REMOVE ITEM
+     */
+    async removeItem(key, button) {
+
+      if (button) {
+        button.disabled = true;
+        button.textContent = 'Menghapus...';
+      }
+
+      try {
+
+        const response = await fetch(
+          window.Shopify.routes.root + 'cart/change.js',
+          {
+            method: 'POST',
+
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+            },
+
+            body: JSON.stringify({
+              id: key,
+              quantity: 0
+            })
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error('Remove item failed');
+        }
+
+        this.cartData = await response.json();
+
+        this.render(this.cartData);
+
+        /*
+         * Beri tahu tema bahwa cart berubah.
+         */
+        document.dispatchEvent(
+          new CustomEvent('cart:updated', {
+            detail: {
+              cart: this.cartData
+            }
+          })
+        );
+
+      } catch (error) {
+
+        console.error('Remove cart item error:', error);
+
+        alert(
+          'Gagal menghapus produk. Silakan coba lagi.'
+        );
+
+        if (button) {
+          button.disabled = false;
+          button.textContent = 'Hapus';
+        }
+
+      }
+
+    }
+
+    /*
+     * CHECKOUT VIA WHATSAPP
+     */
+    checkoutToWhatsApp() {
+
+      if (
+        !this.cartData ||
+        !this.cartData.items ||
+        !this.cartData.items.length
+      ) {
+
+        alert('Keranjang Anda masih kosong.');
+
+        return;
+      }
+
+      /*
+       * NOMOR WHATSAPP BNS
+       */
+      const nomorWA = '6287795361519';
+
+      let daftarProduk = '';
+
+      this.cartData.items.forEach((item, index) => {
+
+        const varian = item.variant_title
+          ? ` (${item.variant_title})`
+          : '';
+
+        daftarProduk +=
+          `${index + 1}. ${item.product_title}${varian} x${item.quantity}\n`;
+
+      });
+
+      const totalHarga = (
+        this.cartData.total_price / 100
+      ).toLocaleString('id-ID');
+
+      const pesan =
+        `Hai BNS, saya ingin checkout pesanan berikut:\n\n` +
+        `${daftarProduk}\n` +
+        `Total: Rp${totalHarga}\n\n` +
+        `Bantu saya untuk proses pembayarannya ya min [WEB-Produk]`;
+
+      const waUrl =
+        `https://api.whatsapp.com/send?phone=${nomorWA}&text=${encodeURIComponent(pesan)}`;
+
+      window.open(
+        waUrl,
+        '_blank',
+        'noopener,noreferrer'
+      );
+
+    }
+
+    /*
+     * FORMAT RUPIAH
+     */
+    money(value) {
+
+      return new Intl.NumberFormat(
+        'id-ID',
+        {
+          style: 'currency',
+          currency: 'IDR',
+          maximumFractionDigits: 0
+        }
+      ).format(value / 100);
+
+    }
+
+    /*
+     * ESCAPE HTML
+     */
+    escape(value) {
+
+      const div = document.createElement('div');
+
+      div.textContent = value == null
+        ? ''
+        : String(value);
+
+      return div.innerHTML;
+
+    }
+
+  }
+
+  customElements.define(
+    elementName,
+    CartDrawerCustom
+  );
+
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Cart Drawer Custom",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Judul",
+      "default": "Keranjang Anda"
+    },
+    {
+      "type": "text",
+      "id": "checkout_label",
+      "label": "Teks tombol checkout",
+      "default": "Checkout via WhatsApp"
+    },
+    {
+      "type": "color",
+      "id": "drawer_background",
+      "label": "Warna background",
+      "default": "#F4F4F4"
+    },
+    {
+      "type": "color",
+      "id": "drawer_text",
+      "label": "Warna teks",
+      "default": "#2B2C2D"
+    },
+    {
+      "type": "color",
+      "id": "button_background",
+      "label": "Warna tombol",
+      "default": "#B7ACA2"
+    },
+    {
+      "type": "color",
+      "id": "button_text",
+      "label": "Warna teks tombol",
+      "default": "#262626"
+    },
+    {
+      "type": "range",
+      "id": "button_radius",
+      "label": "Radius tombol",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 6
+    }
+  ],
+  "presets": [
+    {
+      "name": "Cart Drawer Custom"
+    }
+  ]
+}
+{% endschema %}
+

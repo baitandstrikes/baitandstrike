@@ -1,0 +1,224 @@
+{% doc %}
+  @prompt
+    Add two WhatsApp buttons on the product detail page, placed below or near the Add to Cart button:
+    
+    Button 1 - Product Consultation:
+    - Label: "Konsultasi Produk" (customizable)
+    - WhatsApp green color (#25D366) with WhatsApp icon
+    - Pre-filled message: "Halo, saya ingin konsultasi mengenai produk: [Product Title] - [Product URL]"
+    - Opens wa.me link with configurable phone number
+    
+    Button 2 - WhatsApp Checkout:
+    - Label: "Beli via WhatsApp" (customizable)
+    - Dark green or secondary color with WhatsApp icon
+    - Pre-filled message: "Halo, saya ingin memesan: [Product Title] - Qty: 1 - [Product URL]"
+    - Opens wa.me link with configurable phone number
+    
+    General requirements:
+    - Both buttons configurable phone number in theme settings (format: 628xxxxxxxxxx)
+    - Mobile-friendly, opens WhatsApp app on mobile
+    - Toggle show/hide each button individually via theme editor
+    - Buttons displayed side by side or stacked vertically
+    - Dynamic product title and URL injected automatically via Liquid
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+{% assign product_title = product.title | default: 'Produk ini' %}
+{% assign product_url = shop.url | append: product.url %}
+{% capture consultation_message %}Halo, saya ingin konsultasi mengenai produk: {{ product_title }} - {{ product_url }}{% endcapture %}
+{% capture checkout_message %}Halo, saya ingin memesan: {{ product_title }} - Qty: 1 - {{ product_url }}{% endcapture %}
+{% style %}
+.ai-whatsapp-actions-{{ ai_gen_id }} {
+  display: block;
+  width: {{ block.settings.desktop_width_percent }}%;
+  max-width: 100%;
+  margin-top: 16px;
+}
+.ai-whatsapp-actions__list-{{ ai_gen_id }} {
+  display: flex;
+  flex-direction: {% if block.settings.layout == 'stacked' %}column{% else %}row{% endif %};
+  gap: 10px;
+  width: 100%;
+  justify-content: {% case block.settings.button_alignment %}{% when 'left' %}flex-start{% when 'right' %}flex-end{% else %}center{% endcase %};
+}
+.ai-whatsapp-actions__button-{{ ai_gen_id }} {
+  align-items: center;
+  border: 0;
+  border-radius: {{ block.settings.border_radius }}px;
+  box-sizing: border-box;
+  display: inline-flex;
+  flex: 0 1 auto;
+  font-family: {{ settings.type_body_font.family }}, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  gap: 8px;
+  justify-content: center;
+  min-height: 48px;
+  padding: 12px 16px;
+  text-align: center;
+  text-decoration: none;
+  transition: filter .2s ease;
+}
+.ai-whatsapp-actions__button-{{ ai_gen_id }}:hover {
+  filter: brightness(.9);
+}
+.ai-whatsapp-actions__button-{{ ai_gen_id }}:focus-visible {
+  outline: 3px solid #1a73e8;
+  outline-offset: 3px;
+}
+.ai-whatsapp-actions__button--consultation-{{ ai_gen_id }} {
+  background-color: {{ block.settings.consultation_color }};
+  color: #102a1b;
+}
+.ai-whatsapp-actions__button--checkout-{{ ai_gen_id }} {
+  background-color: {{ block.settings.checkout_color }};
+  color: #fff;
+}
+.ai-whatsapp-actions__icon-{{ ai_gen_id }} {
+  display: block;
+  flex: 0 0 auto;
+  height: 21px;
+  width: 21px;
+}
+@media screen and (max-width: 749px) {
+  .ai-whatsapp-actions-{{ ai_gen_id }} {
+    width: 100%;
+  }
+  .ai-whatsapp-actions__list-{{ ai_gen_id }} {
+    flex-direction: column;
+    align-items: {% case block.settings.button_alignment %}{% when 'left' %}flex-start{% when 'right' %}flex-end{% else %}center{% endcase %};
+  }
+  .ai-whatsapp-actions__button-{{ ai_gen_id }} {
+    width: auto;
+    max-width: 100%;
+  }
+}
+{% endstyle %}
+<whatsapp-actions-{{ ai_gen_id }} class="ai-whatsapp-actions-{{ ai_gen_id }}" {{ block.shopify_attributes }}><div class="ai-whatsapp-actions__list-{{ ai_gen_id }}">{% if block.settings.show_consultation and block.settings.consultation_phone != blank %}<a class="ai-whatsapp-actions__button-{{ ai_gen_id }} ai-whatsapp-actions__button--consultation-{{ ai_gen_id }}" href="https://wa.me/{{ block.settings.consultation_phone | remove: '+' | remove: ' ' }}?text={{ consultation_message | strip | url_encode }}" target="_blank" rel="noopener noreferrer" aria-label="{{ block.settings.consultation_label | escape }}"><svg class="ai-whatsapp-actions__icon-{{ ai_gen_id }}" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.5 3.5A11.8 11.8 0 0 0 12.1 0C5.6 0 .3 5.3.3 11.8c0 2.1.6 4.1 1.6 5.9L.2 24l6.4-1.7a11.8 11.8 0 0 0 5.5 1.4h.1c6.5 0 11.8-5.3 11.8-11.8 0-3.2-1.2-6.2-3.5-8.4ZM12.2 21.7h-.1c-1.7 0-3.4-.5-4.9-1.3l-.4-.2-3.8 1 1-3.7-.2-.4a9.8 9.8 0 0 1-1.5-5.2C2.3 6.5 6.7 2.1 12.1 2.1c2.6 0 5.1 1 6.9 2.9a9.7 9.7 0 0 1 2.9 6.9c0 5.4-4.4 9.8-9.7 9.8Zm5.4-7.3c-.3-.2-1.8-.9-2.1-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-1.6-.8-2.7-1.4-3.8-3.2-.3-.5.3-.5.8-1.7.1-.2.1-.4 0-.6-.1-.2-.7-1.7-1-2.3-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.2 1.2-1.2 2.8s1.2 3.3 1.4 3.5c.2.2 2.3 3.5 5.6 4.9 2.1.9 2.9 1 3.9.8.6-.1 1.8-.7 2.1-1.4.3-.7.3-1.3.2-1.4-.1-.2-.3-.3-.6-.5Z"/></svg><span>{{ block.settings.consultation_label }}</span></a>{% endif %}{% if block.settings.show_checkout and block.settings.checkout_phone != blank %}<a class="ai-whatsapp-actions__button-{{ ai_gen_id }} ai-whatsapp-actions__button--checkout-{{ ai_gen_id }}" href="https://wa.me/{{ block.settings.checkout_phone | remove: '+' | remove: ' ' }}?text={{ checkout_message | strip | url_encode }}" target="_blank" rel="noopener noreferrer" aria-label="{{ block.settings.checkout_label | escape }}"><svg class="ai-whatsapp-actions__icon-{{ ai_gen_id }}" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.5 3.5A11.8 11.8 0 0 0 12.1 0C5.6 0 .3 5.3.3 11.8c0 2.1.6 4.1 1.6 5.9L.2 24l6.4-1.7a11.8 11.8 0 0 0 5.5 1.4h.1c6.5 0 11.8-5.3 11.8-11.8 0-3.2-1.2-6.2-3.5-8.4ZM12.2 21.7h-.1c-1.7 0-3.4-.5-4.9-1.3l-.4-.2-3.8 1 1-3.7-.2-.4a9.8 9.8 0 0 1-1.5-5.2C2.3 6.5 6.7 2.1 12.1 2.1c2.6 0 5.1 1 6.9 2.9a9.7 9.7 0 0 1 2.9 6.9c0 5.4-4.4 9.8-9.7 9.8Z"/></svg><span>{{ block.settings.checkout_label }}</span></a>{% endif %}</div></whatsapp-actions-{{ ai_gen_id }}>
+{% schema %}
+{
+  "name": "WhatsApp product actions",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Consultation button"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_consultation",
+      "label": "Show consultation",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "consultation_label",
+      "label": "Label",
+      "default": "Konsultasi Produk"
+    },
+    {
+      "type": "text",
+      "id": "consultation_phone",
+      "label": "Phone number",
+      "default": "6281234567890"
+    },
+    {
+      "type": "color",
+      "id": "consultation_color",
+      "label": "Button color",
+      "default": "#25D366"
+    },
+    {
+      "type": "header",
+      "content": "Checkout button"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_checkout",
+      "label": "Show checkout",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "checkout_label",
+      "label": "Label",
+      "default": "Beli via WhatsApp"
+    },
+    {
+      "type": "text",
+      "id": "checkout_phone",
+      "label": "Phone number",
+      "default": "6281234567890"
+    },
+    {
+      "type": "color",
+      "id": "checkout_color",
+      "label": "Button color",
+      "default": "#075E54"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Desktop layout",
+      "options": [
+        {
+          "value": "row",
+          "label": "Side by side"
+        },
+        {
+          "value": "stacked",
+          "label": "Stacked"
+        }
+      ],
+      "default": "row"
+    },
+    {
+      "type": "select",
+      "id": "button_alignment",
+      "label": "Button position",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "label": "Corner radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 6
+    }
+  ],
+  "presets": [
+    {
+      "name": "WhatsApp product actions"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,969 @@
+{{ 'component-cart.css' | asset_url | stylesheet_tag }}
+{{ 'component-totals.css' | asset_url | stylesheet_tag }}
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
+{{ 'component-discounts.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+.section-{{ section.id }}-padding {
+padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+}
+
+@media screen and (min-width: 750px) {
+.section-{{ section.id }}-padding {
+padding-top: {{ section.settings.padding_top }}px;
+padding-bottom: {{ section.settings.padding_bottom }}px;
+}
+}
+
+.bns-ro {
+  margin-bottom: 2.4rem;
+  padding: 2rem;
+  border: 1px solid rgba(50, 130, 192, 0.24);
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(50, 130, 192, 0.08), rgba(252, 221, 22, 0.08));
+}
+
+.bns-ro__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.6rem;
+  margin-bottom: 1.6rem;
+}
+
+.bns-ro__title {
+  margin: 0 0 0.4rem;
+  color: #14212b;
+  font-size: 1.8rem;
+  font-weight: 800;
+}
+
+.bns-ro__subtitle {
+  margin: 0;
+  color: rgba(20, 33, 43, 0.72);
+  font-size: 1.3rem;
+  line-height: 1.5;
+}
+
+.bns-ro__weight {
+  flex: 0 0 auto;
+  padding: 0.7rem 1rem;
+  border-radius: 999px;
+  background: #3282c0;
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.bns-ro__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(150px, 0.38fr);
+  gap: 1.2rem;
+}
+
+.bns-ro__field {
+  position: relative;
+}
+
+.bns-ro__label {
+  display: block;
+  margin-bottom: 0.6rem;
+  color: #14212b;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.bns-ro__input,
+.bns-ro__select {
+  width: 100%;
+  min-height: 4.6rem;
+  padding: 0 1.3rem;
+  border: 1px solid rgba(20, 33, 43, 0.24);
+  border-radius: 10px;
+  background: #fff;
+  color: #14212b;
+  font: inherit;
+}
+
+.bns-ro__courier-fixed {
+  display: flex;
+  align-items: center;
+  font-weight: 800;
+  cursor: default;
+}
+
+.bns-ro__input:focus,
+.bns-ro__select:focus {
+  outline: 2px solid #fcdd16;
+  outline-offset: 2px;
+  border-color: #3282c0;
+}
+
+.bns-ro__suggestions {
+  position: absolute;
+  z-index: 10;
+  top: calc(100% + 6px);
+  right: 0;
+  left: 0;
+  overflow: auto;
+  max-height: 240px;
+  margin: 0;
+  padding: 0.5rem;
+  border: 1px solid rgba(20, 33, 43, 0.18);
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 14px 32px rgba(20, 33, 43, 0.14);
+  list-style: none;
+}
+
+.bns-ro__suggestions[hidden] {
+  display: none;
+}
+
+.bns-ro__suggestion {
+  width: 100%;
+  padding: 1rem;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: #14212b;
+  text-align: left;
+  cursor: pointer;
+}
+
+.bns-ro__suggestion:hover,
+.bns-ro__suggestion:focus-visible {
+  background: rgba(50, 130, 192, 0.1);
+  outline: none;
+}
+
+.bns-ro__action {
+  width: 100%;
+  min-height: 4.8rem;
+  margin-top: 1.4rem;
+  border: 0;
+  border-radius: 10px;
+  background: #fcdd16;
+  color: #14212b;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.bns-ro__action:hover {
+  filter: brightness(0.96);
+  transform: translateY(-1px);
+}
+
+.bns-ro__action:disabled {
+  cursor: not-allowed;
+  filter: grayscale(0.35);
+  opacity: 0.6;
+  transform: none;
+}
+
+.bns-ro__status {
+  min-height: 2rem;
+  margin: 1rem 0 0;
+  color: rgba(20, 33, 43, 0.75);
+  font-size: 1.25rem;
+}
+
+.bns-ro__status[data-type='error'] {
+  color: #b42318;
+}
+
+.bns-ro__results {
+  display: grid;
+  gap: 0.8rem;
+  margin-top: 1.2rem;
+}
+
+.bns-ro__rate {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.6rem 1.2rem;
+  padding: 1.2rem;
+  border: 1px solid rgba(50, 130, 192, 0.18);
+  border-radius: 12px;
+  background: #fff;
+  cursor: pointer;
+  transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+
+.bns-ro__rate:hover,
+.bns-ro__rate:focus-visible {
+  border-color: #3282c0;
+  outline: none;
+  transform: translateY(-1px);
+}
+
+.bns-ro__rate[aria-pressed='true'] {
+  border-color: #3282c0;
+  box-shadow: 0 0 0 2px rgba(50, 130, 192, 0.16);
+}
+
+.bns-ro__service {
+  color: #14212b;
+  font-weight: 800;
+}
+
+.bns-ro__price {
+  color: #17547f;
+  font-weight: 800;
+}
+
+.bns-ro__eta {
+  grid-column: 1 / -1;
+  color: rgba(20, 33, 43, 0.68);
+  font-size: 1.2rem;
+}
+
+.bns-ro__shipping-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.6rem;
+  margin-bottom: 0.8rem;
+  color: rgba(20, 33, 43, 0.78);
+}
+
+.bns-ro__shipping-line[hidden] {
+  display: none;
+}
+
+.bns-ro__shipping-value {
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.bns-ro__total-note {
+  display: block;
+  margin-top: 0.5rem;
+  color: rgba(20, 33, 43, 0.68);
+}
+
+@media screen and (max-width: 749px) {
+  .bns-ro {
+    padding: 1.6rem;
+  }
+
+  .bns-ro__head {
+    display: block;
+  }
+
+  .bns-ro__weight {
+    display: inline-block;
+    margin-top: 1rem;
+  }
+
+  .bns-ro__grid {
+    grid-template-columns: 1fr;
+  }
+}
+{%- endstyle -%}
+
+<div
+  class="gradient color-{{ section.settings.color_scheme }}{% if cart == empty %} is-empty{% endif %}"
+  id="main-cart-footer"
+  data-id="{{ section.id }}"
+>
+  <div class="page-width">
+    <div class="cart__footer isolate section-{{ section.id }}-padding">
+
+
+  {%- if settings.show_cart_note -%}
+    <cart-note class="cart__note field">
+      <label for="Cart-note">{{ 'sections.cart.note' | t }}</label>
+
+      <textarea
+        class="text-area field__input"
+        name="note"
+        form="cart"
+        id="Cart-note"
+        placeholder="{{ 'sections.cart.note' | t }}"
+      >{{ cart.note }}</textarea>
+    </cart-note>
+  {%- endif -%}
+
+  <div class="cart__blocks">
+
+    {%- if section.settings.enable_rajaongkir and cart != empty -%}
+      {%- assign jnt_variant_1000 = '' -%}
+      {%- assign jnt_variant_100 = '' -%}
+      {%- assign jnt_variant_10 = '' -%}
+      {%- assign jnt_variant_1 = '' -%}
+      {%- assign jnt_shipping_product = section.settings.jnt_shipping_product -%}
+      {%- if jnt_shipping_product == blank -%}
+        {%- assign jnt_shipping_product = all_products['j-t-shipping'] -%}
+      {%- endif -%}
+      {%- if jnt_shipping_product != blank -%}
+        {%- for variant in jnt_shipping_product.variants -%}
+          {%- case variant.sku -%}
+            {%- when 'BNS-JNT-1000' -%}
+              {%- assign jnt_variant_1000 = variant.id -%}
+            {%- when 'BNS-JNT-100' -%}
+              {%- assign jnt_variant_100 = variant.id -%}
+            {%- when 'BNS-JNT-10' -%}
+              {%- assign jnt_variant_10 = variant.id -%}
+            {%- when 'BNS-JNT-1' -%}
+              {%- assign jnt_variant_1 = variant.id -%}
+          {%- endcase -%}
+        {%- endfor -%}
+      {%- endif -%}
+      {%- if jnt_variant_1000 == blank or jnt_variant_100 == blank or jnt_variant_10 == blank or jnt_variant_1 == blank -%}
+        {%- assign jnt_variant_1000 = 67395904700644 -%}
+        {%- assign jnt_variant_100 = 67395904733412 -%}
+        {%- assign jnt_variant_10 = 67395904766180 -%}
+        {%- assign jnt_variant_1 = 67395904798948 -%}
+      {%- endif -%}
+      <div
+        class="bns-ro"
+        data-bns-rajaongkir
+        data-endpoint="{{ section.settings.rajaongkir_proxy_url | default: 'https://bns-rajaongkir.baitstrikeshopify.workers.dev/' | escape }}"
+        data-weight="{{ cart.total_weight | at_least: 1 }}"
+        data-shipping-variant-1000="{{ jnt_variant_1000 }}"
+        data-shipping-variant-100="{{ jnt_variant_100 }}"
+        data-shipping-variant-10="{{ jnt_variant_10 }}"
+        data-shipping-variant-1="{{ jnt_variant_1 }}"
+      >
+        <div class="bns-ro__head">
+          <div>
+            <h2 class="bns-ro__title">Wajib Isi Kecamatan/Kota Tujuan Pengiriman</h2>
+            <p class="bns-ro__subtitle">Pilih kecamatan tujuan untuk melihat perkiraan ongkir J&amp;T Express.</p>
+          </div>
+          <span class="bns-ro__weight">Berat {{ cart.total_weight | divided_by: 1000.0 | round: 2 }} kg</span>
+        </div>
+
+        <div class="bns-ro__grid">
+          <div class="bns-ro__field">
+            <label class="bns-ro__label" for="BnsDestination-{{ section.id }}">Kecamatan/kota tujuan</label>
+            <input
+              class="bns-ro__input"
+              id="BnsDestination-{{ section.id }}"
+              type="search"
+              placeholder="Contoh: Grogol Petamburan"
+              autocomplete="off"
+              data-destination-input
+            >
+            <input type="hidden" data-destination-id>
+            <ul class="bns-ro__suggestions" data-suggestions hidden></ul>
+          </div>
+
+          <div class="bns-ro__field">
+            <span class="bns-ro__label">Ekspedisi</span>
+            <div class="bns-ro__select bns-ro__courier-fixed" aria-label="Ekspedisi J&amp;T Express">
+              J&amp;T Express
+            </div>
+          </div>
+        </div>
+
+        <button class="bns-ro__action" type="button" data-check-rate disabled>Cek ongkir sekarang</button>
+        <p class="bns-ro__status" data-status aria-live="polite"></p>
+        <div class="bns-ro__results" data-results aria-live="polite"></div>
+      </div>
+    {%- endif -%}
+
+    {% for block in section.blocks %}
+
+      {%- case block.type -%}
+
+        {%- when '@app' -%}
+
+          {% render block %}
+
+        {%- when 'subtotal' -%}
+
+          <div
+            class="js-contents"
+            data-bns-cart-summary
+            data-cart-total-minor="{{ cart.total_price }}"
+            data-currency="{{ cart.currency.iso_code | default: shop.currency | escape }}"
+            {{ block.shopify_attributes }}
+          >
+
+            <div>
+
+              {%- if cart.cart_level_discount_applications.size > 0 -%}
+
+                <ul
+                  class="discounts list-unstyled"
+                  role="list"
+                  aria-label="{{ 'customer.order.discount' | t }}"
+                >
+
+                  {%- for discount in cart.cart_level_discount_applications -%}
+
+                    <li class="discounts__discount discounts__discount--position">
+
+                      {{- 'icon-discount.svg' | inline_asset_content -}}
+
+                      {{ discount.title | escape }}
+
+                      (-{{ discount.total_allocated_amount | money }})
+
+                    </li>
+
+                  {%- endfor -%}
+
+                </ul>
+
+              {%- endif -%}
+
+            </div>
+
+            <div class="bns-ro__shipping-line" data-bns-shipping-line hidden>
+              <span>Estimasi ongkir J&amp;T</span>
+              <span class="bns-ro__shipping-value" data-bns-shipping-value></span>
+            </div>
+
+            <div class="totals">
+
+              <h2 class="totals__total">
+                {{ 'sections.cart.estimated_total' | t }}
+              </h2>
+
+              <p class="totals__total-value" data-bns-estimated-total>
+                {{ cart.total_price | money_with_currency }}
+              </p>
+
+            </div>
+
+            <small class="bns-ro__total-note" data-bns-total-note hidden>
+              Ongkir J&amp;T ditambahkan sebagai item ke keranjang dan ikut dibayar saat checkout.
+            </small>
+
+            <small class="tax-note caption-large rte">
+
+              {%- if cart.duties_included and cart.taxes_included -%}
+
+                {%- if shop.shipping_policy.body == blank -%}
+
+                  {{ 'sections.cart.duties_and_taxes_included_shipping_at_checkout_without_policy' | t }}
+
+                {%- else -%}
+
+                  {{
+                    'sections.cart.duties_and_taxes_included_shipping_at_checkout_with_policy_html'
+                    | t: link: shop.shipping_policy.url
+                  }}
+
+                {%- endif -%}
+
+              {%- elsif cart.duties_included == false and cart.taxes_included -%}
+
+                {%- if shop.shipping_policy.body == blank -%}
+
+                  {{ 'sections.cart.taxes_included_shipping_at_checkout_without_policy' | t }}
+
+                {%- else -%}
+
+                  {{
+                    'sections.cart.taxes_included_shipping_at_checkout_with_policy_html'
+                    | t: link: shop.shipping_policy.url
+                  }}
+
+                {%- endif -%}
+
+              {%- elsif cart.duties_included and cart.taxes_included == false -%}
+
+                {%- if shop.shipping_policy.body == blank -%}
+
+                  {{ 'sections.cart.duties_included_taxes_at_checkout_shipping_at_checkout_without_policy' | t }}
+
+                {%- else -%}
+
+                  {{
+                    'sections.cart.duties_included_taxes_at_checkout_shipping_at_checkout_with_policy_html'
+                    | t: link: shop.shipping_policy.url
+                  }}
+
+                {%- endif -%}
+
+              {%- elsif cart.duties_included == false and cart.taxes_included == false -%}
+
+                {%- if shop.shipping_policy.body == blank -%}
+
+                  {{ 'sections.cart.taxes_at_checkout_shipping_at_checkout_without_policy' | t }}
+
+                {%- else -%}
+
+                  {{
+                    'sections.cart.taxes_at_checkout_shipping_at_checkout_with_policy_html'
+                    | t: link: shop.shipping_policy.url
+                  }}
+
+                {%- endif -%}
+
+              {%- endif -%}
+
+            </small>
+
+          </div>
+
+        {%- when 'buttons' -%}
+
+          <div class="cart__ctas" {{ block.shopify_attributes }}>
+
+            <button
+              type="submit"
+              id="checkout"
+              class="cart__checkout-button button"
+              name="checkout"
+              {% if cart == empty or section.settings.enable_rajaongkir %}
+                disabled
+              {% endif %}
+              form="cart"
+            >
+              {{ 'sections.cart.checkout' | t }}
+            </button>
+
+          </div>
+
+      {%- endcase -%}
+
+    {% endfor %}
+
+    <div id="cart-errors"></div>
+
+  </div>
+</div>
+
+
+  </div>
+</div>
+
+<script>
+  (() => {
+    const init = (root) => {
+      if (!root || root.dataset.initialized === 'true') return;
+      root.dataset.initialized = 'true';
+
+      const endpoint = root.dataset.endpoint.trim();
+      const weight = Number(root.dataset.weight || 1);
+      const input = root.querySelector('[data-destination-input]');
+      const destinationId = root.querySelector('[data-destination-id]');
+      const suggestions = root.querySelector('[data-suggestions]');
+      const courier = 'jnt';
+      const button = root.querySelector('[data-check-rate]');
+      const status = root.querySelector('[data-status]');
+      const results = root.querySelector('[data-results]');
+      const checkoutButton = document.getElementById('checkout');
+      const cartForm = document.getElementById('cart');
+      const summary = document.querySelector('[data-bns-cart-summary]');
+      const shippingLine = summary?.querySelector('[data-bns-shipping-line]');
+      const shippingValue = summary?.querySelector('[data-bns-shipping-value]');
+      const estimatedTotal = summary?.querySelector('[data-bns-estimated-total]');
+      const totalNote = summary?.querySelector('[data-bns-total-note]');
+      const baseTotalMinor = Number(summary?.dataset.cartTotalMinor || 0);
+      const currency = summary?.dataset.currency || 'IDR';
+      const shippingVariants = [
+        { unit: 1000, id: Number(root.getAttribute('data-shipping-variant-1000') || 0) },
+        { unit: 100, id: Number(root.getAttribute('data-shipping-variant-100') || 0) },
+        { unit: 10, id: Number(root.getAttribute('data-shipping-variant-10') || 0) },
+        { unit: 1, id: Number(root.getAttribute('data-shipping-variant-1') || 0) }
+      ];
+      let timer;
+      let controller;
+      let shippingSelected = false;
+
+      const setStatus = (message, type = '') => {
+        status.textContent = message;
+        status.dataset.type = type;
+      };
+
+      const money = (value) => new Intl.NumberFormat('id-ID', {
+        style: 'currency',
+        currency,
+        minimumFractionDigits: currency === 'IDR' ? 2 : 2,
+        maximumFractionDigits: 2
+      }).format(Number(value || 0));
+
+      const resetEstimatedTotal = () => {
+        if (!summary || !estimatedTotal) return;
+        shippingSelected = false;
+        estimatedTotal.textContent = money(baseTotalMinor / 100);
+        if (shippingLine) shippingLine.hidden = true;
+        if (totalNote) totalNote.hidden = true;
+        if (checkoutButton) {
+          checkoutButton.disabled = true;
+          checkoutButton.setAttribute('aria-disabled', 'true');
+          checkoutButton.title = 'Pilih ongkir J&T terlebih dahulu';
+        }
+      };
+
+      const getShippingItems = (amount, meta) => {
+        let remaining = Math.max(0, Math.round(Number(amount || 0)));
+        const items = [];
+
+        shippingVariants.forEach(({ unit, id }) => {
+          if (!id || remaining < unit) return;
+          const quantity = Math.floor(remaining / unit);
+          remaining -= quantity * unit;
+          if (quantity > 0) {
+            items.push({
+              id,
+              quantity,
+              properties: {
+                '_bns_shipping': 'true',
+                'Kurir': 'J&T Express',
+                'Layanan': meta.service,
+                'Tujuan': meta.destination,
+                'Estimasi': meta.etd || '-',
+                '_shipping_total': String(Math.round(amount))
+              }
+            });
+          }
+        });
+
+        if (remaining !== 0) {
+          throw new Error('Nominal ongkir tidak dapat dibentuk dari varian J&T Shipping yang dikonfigurasi.');
+        }
+        return items;
+      };
+
+      const removeExistingShippingItems = async () => {
+        const cartResponse = await fetch(window.Shopify.routes.root + 'cart.js', {
+          headers: { Accept: 'application/json' },
+          cache: 'no-store'
+        });
+        if (!cartResponse.ok) throw new Error('Keranjang tidak dapat dibaca.');
+        const cart = await cartResponse.json();
+        const updates = {};
+        cart.items.forEach((item) => {
+          if (item.properties?._bns_shipping === 'true') updates[item.key] = 0;
+        });
+        if (!Object.keys(updates).length) return;
+
+        const response = await fetch(window.Shopify.routes.root + 'cart/update.js', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({ updates })
+        });
+        if (!response.ok) throw new Error('Ongkir lama gagal diganti.');
+      };
+
+      const saveShippingToCart = async (shippingAmount, meta) => {
+        if (shippingVariants.some((entry) => !Number.isSafeInteger(entry.id) || entry.id <= 0)) {
+          throw new Error('Pilih produk J&T Shipping di Theme Editor dan pastikan varian harganya Rp1.000, Rp100, Rp10, dan Rp1.');
+        }
+
+        await removeExistingShippingItems();
+        const items = getShippingItems(shippingAmount, meta);
+        if (!items.length) throw new Error('Nominal ongkir tidak valid.');
+
+        const addResponse = await fetch(window.Shopify.routes.root + 'cart/add.js', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({ items })
+        });
+        if (!addResponse.ok) throw new Error('J&T Shipping gagal ditambahkan ke keranjang.');
+
+        await fetch(window.Shopify.routes.root + 'cart/update.js', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({
+            attributes: {
+              'BNS Shipping Courier': 'J&T Express',
+              'BNS Shipping Service': meta.service,
+              'BNS Shipping Destination': meta.destination,
+              'BNS Shipping Cost': String(Math.round(shippingAmount)),
+              'BNS Shipping ETD': meta.etd || '-'
+            }
+          })
+        });
+      };
+
+      const applyEstimatedShipping = async (shippingAmount, selectedCard, meta) => {
+        const amount = Number(shippingAmount || 0);
+        if (!summary || !estimatedTotal || amount < 0) return;
+
+        shippingSelected = false;
+        if (checkoutButton) checkoutButton.disabled = true;
+        setStatus('Menambahkan J&T Shipping ke keranjang…');
+
+        try {
+          await saveShippingToCart(amount, meta);
+
+          results.querySelectorAll('.bns-ro__rate').forEach((card) => {
+            card.setAttribute('aria-pressed', card === selectedCard ? 'true' : 'false');
+          });
+
+          if (shippingValue) shippingValue.textContent = money(amount);
+          if (shippingLine) shippingLine.hidden = false;
+          if (totalNote) totalNote.hidden = false;
+          estimatedTotal.textContent = money((baseTotalMinor / 100) + amount);
+          shippingSelected = true;
+          if (checkoutButton) {
+            checkoutButton.disabled = false;
+            checkoutButton.setAttribute('aria-disabled', 'false');
+            checkoutButton.removeAttribute('title');
+          }
+          setStatus('J&T Shipping sudah masuk keranjang. Checkout dapat dilanjutkan.');
+          document.dispatchEvent(new CustomEvent('cart:refresh'));
+        } catch (error) {
+          resetEstimatedTotal();
+          setStatus(error.message || 'Gagal menambahkan ongkir ke keranjang.', 'error');
+        }
+      };
+
+      const clearSuggestions = () => {
+        suggestions.replaceChildren();
+        suggestions.hidden = true;
+      };
+
+      const normalizeLocations = (payload) => {
+        const rows = payload.data || payload.results || payload.locations || [];
+        return Array.isArray(rows) ? rows : [];
+      };
+
+      const normalizeRates = (payload) => {
+        const rows = payload.data || payload.results || payload.rates || [];
+        return Array.isArray(rows) ? rows : [];
+      };
+
+      const searchDestination = async (query) => {
+        if (!endpoint) {
+          setStatus('Endpoint RajaOngkir belum diatur di pengaturan tema.', 'error');
+          return;
+        }
+
+        controller?.abort();
+        controller = new AbortController();
+        setStatus('Mencari wilayah tujuan…');
+
+        try {
+          const url = new URL(endpoint, window.location.origin);
+          url.searchParams.set('action', 'search');
+          url.searchParams.set('query', query);
+          const response = await fetch(url, {
+            headers: { Accept: 'application/json' },
+            signal: controller.signal
+          });
+          if (!response.ok) throw new Error('Wilayah tujuan tidak dapat dimuat.');
+
+          const locations = normalizeLocations(await response.json());
+          clearSuggestions();
+
+          if (!locations.length) {
+            setStatus('Wilayah tidak ditemukan.', 'error');
+            return;
+          }
+
+          locations.slice(0, 10).forEach((location) => {
+            const id = location.id || location.destination_id || location.subdistrict_id || location.city_id;
+            const label = location.label || location.name || location.destination_name || location.subdistrict_name;
+            if (!id || !label) return;
+
+            const item = document.createElement('li');
+            const option = document.createElement('button');
+            option.type = 'button';
+            option.className = 'bns-ro__suggestion';
+            option.textContent = label;
+            option.addEventListener('click', () => {
+              input.value = label;
+              destinationId.value = id;
+              button.disabled = false;
+              clearSuggestions();
+              setStatus('Tujuan dipilih. Silakan cek ongkir.');
+            });
+            item.append(option);
+            suggestions.append(item);
+          });
+
+          suggestions.hidden = suggestions.children.length === 0;
+          if (!suggestions.hidden) setStatus('Pilih wilayah dari daftar.');
+        } catch (error) {
+          if (error.name !== 'AbortError') setStatus(error.message || 'Terjadi kesalahan saat mencari wilayah.', 'error');
+        }
+      };
+
+      input.addEventListener('input', () => {
+        destinationId.value = '';
+        button.disabled = true;
+        results.replaceChildren();
+        resetEstimatedTotal();
+        clearTimeout(timer);
+        const query = input.value.trim();
+        if (query.length < 3) {
+          clearSuggestions();
+          setStatus(query ? 'Ketik minimal 3 karakter.' : '');
+          return;
+        }
+        timer = window.setTimeout(() => searchDestination(query), 450);
+      });
+
+      button.addEventListener('click', async () => {
+        if (!endpoint || !destinationId.value) return;
+        button.disabled = true;
+        results.replaceChildren();
+        setStatus('Menghitung ongkir…');
+
+        try {
+          const response = await fetch(endpoint, {
+            method: 'POST',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              action: 'cost',
+              destination: destinationId.value,
+              courier,
+              weight
+            })
+          });
+          if (!response.ok) throw new Error('Tarif ongkir tidak dapat dimuat.');
+
+          const rates = normalizeRates(await response.json());
+          if (!rates.length) throw new Error('Layanan pengiriman tidak tersedia untuk tujuan ini.');
+
+          const renderedRates = [];
+
+          rates.forEach((rate) => {
+            const amount = Number(rate.cost || rate.price || rate.total_price || 0);
+            const card = document.createElement('button');
+            card.type = 'button';
+            card.className = 'bns-ro__rate';
+            card.setAttribute('aria-pressed', 'false');
+
+            const service = document.createElement('span');
+            service.className = 'bns-ro__service';
+            service.textContent = rate.service || rate.service_name || rate.description || 'J&T Express';
+
+            const price = document.createElement('span');
+            price.className = 'bns-ro__price';
+            price.textContent = money(amount);
+
+            const eta = document.createElement('span');
+            eta.className = 'bns-ro__eta';
+            eta.textContent = `Estimasi ${rate.etd || rate.eta || rate.estimation || '-'} hari`;
+
+            card.append(service, price, eta);
+            card.addEventListener('click', () => applyEstimatedShipping(amount, card, {
+              service: rate.service || rate.service_name || rate.description || 'J&T Express',
+              destination: input.value.trim(),
+              etd: rate.etd || rate.eta || rate.estimation || '-'
+            }));
+            results.append(card);
+            renderedRates.push({ card, amount });
+          });
+
+          setStatus(`${renderedRates.length} layanan ditemukan. Pilih salah satu layanan J&T untuk membuka checkout.`);
+        } catch (error) {
+          setStatus(error.message || 'Terjadi kesalahan saat menghitung ongkir.', 'error');
+        } finally {
+          button.disabled = !destinationId.value;
+        }
+      });
+
+      document.addEventListener('click', (event) => {
+        if (!root.contains(event.target)) clearSuggestions();
+      });
+
+      cartForm?.addEventListener('submit', (event) => {
+        const submitter = event.submitter;
+        const isCheckout = submitter?.name === 'checkout' || submitter?.id === 'checkout';
+        if (isCheckout && !shippingSelected) {
+          event.preventDefault();
+          setStatus('Pilih tujuan dan layanan ongkir J&T sebelum melanjutkan checkout.', 'error');
+          root.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      });
+
+      resetEstimatedTotal();
+      if (!endpoint) {
+        setStatus('Isi URL proxy RajaOngkir melalui pengaturan bagian cart.', 'error');
+      } else {
+        setStatus('Pilih tujuan dan layanan ongkir J&T untuk membuka checkout.');
+      }
+    };
+
+    document.querySelectorAll('[data-bns-rajaongkir]').forEach(init);
+    document.addEventListener('shopify:section:load', (event) => {
+      event.target.querySelectorAll('[data-bns-rajaongkir]').forEach(init);
+    });
+  })();
+</script>
+
+{% schema %}
+{
+"name": "t:sections.main-cart-footer.name",
+"class": "cart__footer-wrapper",
+"settings": [
+{
+"type": "color_scheme",
+"id": "color_scheme",
+"label": "t:sections.all.colors.label",
+"default": "scheme-1"
+},
+{
+"type": "header",
+"content": "Kalkulator RajaOngkir"
+},
+{
+"type": "checkbox",
+"id": "enable_rajaongkir",
+"label": "Aktifkan kalkulator ongkir",
+"default": true
+},
+{
+"type": "url",
+"id": "rajaongkir_proxy_url",
+"label": "URL proxy RajaOngkir"
+},
+{
+"type": "header",
+"content": "Produk J&T Shipping"
+},
+{
+"type": "paragraph",
+"content": "Pilih produk internal J&T Shipping dengan harga varian Rp1.000, Rp100, Rp10, dan Rp1. ID varian dibaca otomatis dari harga."
+},
+{
+"type": "product",
+"id": "jnt_shipping_product",
+"label": "Produk J&T Shipping"
+},
+{
+"type": "header",
+"content": "t:sections.all.padding.section_padding_heading"
+},
+{
+"type": "range",
+"id": "padding_top",
+"min": 0,
+"max": 100,
+"step": 4,
+"unit": "px",
+"label": "t:sections.all.padding.padding_top",
+"default": 40
+},
+{
+"type": "range",
+"id": "padding_bottom",
+"min": 0,
+"max": 100,
+"step": 4,
+"unit": "px",
+"label": "t:sections.all.padding.padding_bottom",
+"default": 40
+}
+],
+"blocks": [
+{
+"type": "subtotal",
+"name": "t:sections.main-cart-footer.blocks.subtotal.name",
+"limit": 1
+},
+{
+"type": "buttons",
+"name": "t:sections.main-cart-footer.blocks.buttons.name",
+"limit": 1
+},
+{
+"type": "@app"
+}
+]
+}
+{% endschema %}

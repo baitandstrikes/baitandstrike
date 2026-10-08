@@ -1,0 +1,40 @@
+{% comment %}
+  BNS catalog intro — Woo "catalog-intro" port (eyebrow + search + 6 pills).
+  Usage: {% render 'bns-catalog-intro', current_handle: collection.handle %}
+{% endcomment %}
+<section class="bns-catalog-intro page-width" aria-label="Kategori produk">
+  <p class="bns-catalog-eyebrow">PRODUCTS</p>
+  <h2>Temukan perlengkapan memancing BAITANDSTRIKE</h2>
+  <form class="bns-catalog-search" action="{{ routes.search_url }}" method="get" role="search">
+    <input
+      type="search"
+      name="q"
+      placeholder="Cari joran, reel, umpan…"
+      aria-label="Cari produk"
+      value="{{ search.terms | escape }}"
+    >
+    <input type="hidden" name="type" value="product">
+    <button type="submit" aria-label="Cari">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg>
+    </button>
+  </form>
+  <nav class="bns-catalog-pills" aria-label="Kategori produk">
+    {%- assign cats = 'fishing-rods-joran:Fishing Rods|reel:Reel|fishing-bait:Fishing Bait|fishing-line:Fishing Line|hook:Hook|fishing-accesories:Fishing Accesories' | split: '|' -%}
+    {%- for pair in cats -%}
+      {%- assign parts = pair | split: ':' -%}
+      {%- assign h = parts[0] -%}
+      {%- assign label = parts[1] -%}
+      {%- assign coll = collections[h] -%}
+      <a
+        class="bns-catalog-pill{% if current_handle == h %} is-active{% endif %}"
+        href="{{ coll.url | default: '/collections/all' }}"
+        {% if current_handle == h %}aria-current="page"{% endif %}
+      >
+        {%- if coll.featured_image -%}
+          {{ coll.featured_image | image_url: width: 100 | image_tag: alt: label, loading: 'lazy' }}
+        {%- endif -%}
+        {{ label }}
+      </a>
+    {%- endfor -%}
+  </nav>
+</section>

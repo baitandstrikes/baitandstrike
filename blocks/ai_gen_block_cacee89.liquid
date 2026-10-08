@@ -1,0 +1,129 @@
+{% doc %}
+  @prompt
+    Change the sign-in/login drawer popup animation on mobile so it slides in from the top or from the right side instead of from the bottom. The popup is the customer account login modal/drawer that appears when clicking the account icon. On mobile (Android/small screens), override the default bottom-slide animation to instead animate sliding in from the top of the screen or from the right side. Use CSS to override the transform and transition properties of the login modal/drawer component.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-login-motion-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    height: 0;
+    overflow: visible;
+    position: relative;
+    z-index: 1;
+  }
+
+  @media screen and (max-width: 749px) {
+    {% if block.settings.mobile_direction == 'top' %}
+      .ai-login-motion-{{ ai_gen_id }} ~ * .account-drawer,
+      .ai-login-motion-{{ ai_gen_id }} ~ .account-drawer,
+      .ai-login-motion-{{ ai_gen_id }} ~ * .account-drawer__dialog,
+      .ai-login-motion-{{ ai_gen_id }} ~ .account-drawer__dialog,
+      .ai-login-motion-{{ ai_gen_id }} ~ * .login-modal,
+      .ai-login-motion-{{ ai_gen_id }} ~ .login-modal,
+      .ai-login-motion-{{ ai_gen_id }} ~ * [data-login-modal],
+      .ai-login-motion-{{ ai_gen_id }} ~ [data-login-modal] {
+        transform: translateY(-100%) !important;
+        transition: transform {{ block.settings.transition_speed }}ms ease !important;
+        inset: 0 0 auto 0 !important;
+        bottom: auto !important;
+        top: 0 !important;
+        max-height: 100dvh;
+      }
+
+      .ai-login-motion-{{ ai_gen_id }} ~ * .account-drawer[open],
+      .ai-login-motion-{{ ai_gen_id }} ~ .account-drawer[open],
+      .ai-login-motion-{{ ai_gen_id }} ~ * .account-drawer.is-open,
+      .ai-login-motion-{{ ai_gen_id }} ~ .account-drawer.is-open,
+      .ai-login-motion-{{ ai_gen_id }} ~ * .login-modal.is-open,
+      .ai-login-motion-{{ ai_gen_id }} ~ .login-modal.is-open,
+      .ai-login-motion-{{ ai_gen_id }} ~ * [data-login-modal][open],
+      .ai-login-motion-{{ ai_gen_id }} ~ [data-login-modal][open] {
+        transform: translateY(0) !important;
+      }
+    {% else %}
+      .ai-login-motion-{{ ai_gen_id }} ~ * .account-drawer,
+      .ai-login-motion-{{ ai_gen_id }} ~ .account-drawer,
+      .ai-login-motion-{{ ai_gen_id }} ~ * .account-drawer__dialog,
+      .ai-login-motion-{{ ai_gen_id }} ~ .account-drawer__dialog,
+      .ai-login-motion-{{ ai_gen_id }} ~ * .login-modal,
+      .ai-login-motion-{{ ai_gen_id }} ~ .login-modal,
+      .ai-login-motion-{{ ai_gen_id }} ~ * [data-login-modal],
+      .ai-login-motion-{{ ai_gen_id }} ~ [data-login-modal] {
+        transform: translateX(100%) !important;
+        transition: transform {{ block.settings.transition_speed }}ms ease !important;
+        inset: 0 0 0 auto !important;
+        left: auto !important;
+        right: 0 !important;
+        top: 0 !important;
+        bottom: 0 !important;
+        max-height: 100dvh;
+      }
+
+      .ai-login-motion-{{ ai_gen_id }} ~ * .account-drawer[open],
+      .ai-login-motion-{{ ai_gen_id }} ~ .account-drawer[open],
+      .ai-login-motion-{{ ai_gen_id }} ~ * .account-drawer.is-open,
+      .ai-login-motion-{{ ai_gen_id }} ~ .account-drawer.is-open,
+      .ai-login-motion-{{ ai_gen_id }} ~ * .login-modal.is-open,
+      .ai-login-motion-{{ ai_gen_id }} ~ .login-modal.is-open,
+      .ai-login-motion-{{ ai_gen_id }} ~ * [data-login-modal][open],
+      .ai-login-motion-{{ ai_gen_id }} ~ [data-login-modal][open] {
+        transform: translateX(0) !important;
+      }
+    {% endif %}
+
+    .ai-login-motion-{{ ai_gen_id }} ~ * .account-drawer__overlay,
+    .ai-login-motion-{{ ai_gen_id }} ~ .account-drawer__overlay,
+    .ai-login-motion-{{ ai_gen_id }} ~ * .modal__overlay,
+    .ai-login-motion-{{ ai_gen_id }} ~ .modal__overlay {
+      transition: opacity {{ block.settings.transition_speed }}ms ease !important;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-login-motion-{{ ai_gen_id }}" {{ block.shopify_attributes }} aria-hidden="true"></div>
+
+{% schema %}
+{
+  "name": "Mobile login motion",
+  "settings": [
+    {
+      "type": "select",
+      "id": "mobile_direction",
+      "label": "Slide direction",
+      "options": [
+        { "value": "top", "label": "From the top" },
+        { "value": "right", "label": "From the right" }
+      ],
+      "default": "top"
+    },
+    {
+      "type": "range",
+      "id": "transition_speed",
+      "label": "Transition speed",
+      "min": 150,
+      "max": 800,
+      "step": 50,
+      "unit": "ms",
+      "default": 350
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    }
+  ],
+  "presets": [
+    { "name": "Mobile login motion" }
+  ],
+  "tag": null,
+  "class": "mobile-login-motion-block"
+}
+{% endschema %}

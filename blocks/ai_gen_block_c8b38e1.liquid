@@ -1,0 +1,146 @@
+{% doc %}
+  @prompt
+    Add a scroll-triggered fade-in animation to the existing section (block ID: ai_gen_block_301c5a8_b97bJ8, section ID: template--23035260764388__1788335598e2bf758a). When the section enters the viewport during scrolling, all content elements inside should smoothly fade in from slightly below their final position (translateY) with an opacity transition. Use Intersection Observer API for performance. Ensure the animation only plays once and does not affect layout or cause cumulative layout shift.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-scroll-fade-controller-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    height: 0;
+    overflow: visible;
+    pointer-events: none;
+  }
+
+  #template--23035260764388__1788335598e2bf758a.ai-scroll-fade-target-{{ ai_gen_id }} [data-ai-scroll-fade-item-{{ ai_gen_id }}] {
+    opacity: 0;
+    transform: translateY({{ block.settings.translate_distance }}px);
+    transition: opacity {{ block.settings.transition_duration }}ms ease, transform {{ block.settings.transition_duration }}ms ease;
+    will-change: opacity, transform;
+  }
+
+  #template--23035260764388__1788335598e2bf758a.ai-scroll-fade-target-{{ ai_gen_id }}.ai-scroll-fade-visible-{{ ai_gen_id }} [data-ai-scroll-fade-item-{{ ai_gen_id }}] {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #template--23035260764388__1788335598e2bf758a.ai-scroll-fade-target-{{ ai_gen_id }} [data-ai-scroll-fade-item-{{ ai_gen_id }}] {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+{% endstyle %}
+
+<scroll-fade-controller-{{ ai_gen_id }}
+  class="ai-scroll-fade-controller-{{ ai_gen_id }}"
+  {{ block.shopify_attributes }}
+  data-threshold="{{ block.settings.observer_threshold }}"
+>
+</scroll-fade-controller-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class ScrollFadeController{{ ai_gen_id }} extends HTMLElement {
+      connectedCallback() {
+        this.target = document.getElementById('template--23035260764388__1788335598e2bf758a');
+        if (!this.target) return;
+
+        this.target.classList.add('ai-scroll-fade-target-{{ ai_gen_id }}');
+        this.items = Array.from(this.target.children).filter(function(element) {
+          return element.nodeType === 1;
+        });
+
+        this.items.forEach(function(item) {
+          item.setAttribute('data-ai-scroll-fade-item-{{ ai_gen_id }}', '');
+        });
+
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) {
+          this.target.classList.add('ai-scroll-fade-visible-{{ ai_gen_id }}');
+          return;
+        }
+
+        this.observer = new IntersectionObserver(function(entries, observer) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('ai-scroll-fade-visible-{{ ai_gen_id }}');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, {
+          threshold: parseFloat(this.dataset.threshold),
+          rootMargin: '0px 0px -8% 0px'
+        });
+
+        this.observer.observe(this.target);
+      }
+
+      disconnectedCallback() {
+        if (this.observer) this.observer.disconnect();
+      }
+    }
+
+    if (!customElements.get('scroll-fade-controller-{{ ai_gen_id }}')) {
+      customElements.define('scroll-fade-controller-{{ ai_gen_id }}', ScrollFadeController{{ ai_gen_id }});
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Scroll fade-in",
+  "settings": [
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "translate_distance",
+      "label": "Movement distance",
+      "min": 4,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "transition_duration",
+      "label": "Transition duration",
+      "min": 200,
+      "max": 1000,
+      "step": 100,
+      "unit": "ms",
+      "default": 500
+    },
+    {
+      "type": "select",
+      "id": "observer_threshold",
+      "label": "Trigger threshold",
+      "options": [
+        { "value": "0.1", "label": "10% visible" },
+        { "value": "0.25", "label": "25% visible" },
+        { "value": "0.5", "label": "50% visible" }
+      ],
+      "default": "0.1"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Scroll fade-in"
+    }
+  ],
+  "tag": null,
+  "class": "scroll-fade-block"
+}
+{% endschema %}

@@ -1,0 +1,74 @@
+{{ 'b2b-contextualization.css' | asset_url | stylesheet_tag }}
+
+{%- if customer and customer.b2b? -%}
+  <section class="b2b-context-bar" data-b2b-context-bar>
+    <div class="b2b-context-bar__inner">
+      <div class="b2b-context-bar__identity">
+        <span class="b2b-context-bar__icon" aria-hidden="true">🏢</span>
+        <div>
+          <span class="b2b-context-bar__eyebrow">BAITANDSTRIKE B2B</span>
+          <strong class="b2b-context-bar__company">
+            {{ customer.current_company.name | default: customer.name | escape }}
+          </strong>
+        </div>
+      </div>
+
+      <div class="b2b-context-bar__status">
+        <span class="b2b-context-bar__dot" aria-hidden="true"></span>
+        <span>Harga grosir aktif</span>
+      </div>
+
+      {%- if customer.current_location -%}
+        <div class="b2b-context-bar__location">
+          <span class="b2b-context-bar__location-label">Lokasi:</span>
+          <span class="b2b-context-bar__location-name">{{ customer.current_location.name | escape }}</span>
+
+          {%- if customer.company_available_locations_count > 1 -%}
+            <details class="b2b-context-bar__switcher">
+              <summary aria-label="Ganti lokasi perusahaan">
+                Ganti lokasi
+                <span aria-hidden="true">⌄</span>
+              </summary>
+              <div class="b2b-context-bar__dropdown">
+                <span class="b2b-context-bar__dropdown-title">Pilih lokasi pembelian</span>
+                <ul role="list">
+                  {%- for location in customer.company_available_locations -%}
+                    <li>
+                      {%- if location.current? -%}
+                        <span class="b2b-context-bar__option b2b-context-bar__option--current">
+                          <span>{{ location.name | escape }}</span>
+                          <span aria-label="Lokasi aktif">✓</span>
+                        </span>
+                      {%- else -%}
+                        <a class="b2b-context-bar__option" href="{{ location.url_to_set_as_current }}">
+                          <span>{{ location.name | escape }}</span>
+                          <span aria-hidden="true">→</span>
+                        </a>
+                      {%- endif -%}
+                    </li>
+                  {%- endfor -%}
+                </ul>
+              </div>
+            </details>
+          {%- endif -%}
+        </div>
+      {%- else -%}
+        <div class="b2b-context-bar__location b2b-context-bar__location--unset">
+          Pilih lokasi perusahaan untuk mulai belanja B2B.
+        </div>
+      {%- endif -%}
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "B2B Context Bar",
+  "settings": [],
+  "presets": [
+    {
+      "name": "B2B Context Bar"
+    }
+  ]
+}
+{% endschema %}

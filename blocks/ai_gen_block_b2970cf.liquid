@@ -1,0 +1,95 @@
+{% doc %}
+  @prompt
+    In the Quick order list section, intercept the "View cart" button click so that instead of navigating to the cart page, it opens the cart drawer (slide-in panel from the right). The cart drawer should already exist in the theme. Use JavaScript to find the "View cart" button or link inside the quick-order-list section and prevent its default navigation, then trigger the cart drawer open event instead.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-quick-order-cart-bridge-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    min-height: 1px;
+  }
+{% endstyle %}
+
+<quick-order-cart-bridge-{{ ai_gen_id }}
+  class="ai-quick-order-cart-bridge-{{ ai_gen_id }}"
+  {{ block.shopify_attributes }}
+  data-section-id="{{ section.id }}"
+>
+</quick-order-cart-bridge-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class QuickOrderCartBridge{{ ai_gen_id }} extends HTMLElement {
+      connectedCallback() {
+        if (this.initialized) return;
+        this.initialized = true;
+        this.handleClick = this.handleClick.bind(this);
+        this.addEventListener('click', this.handleClick);
+        document.addEventListener('click', this.handleClick, true);
+      }
+
+      disconnectedCallback() {
+        document.removeEventListener('click', this.handleClick, true);
+      }
+
+      handleClick(event) {
+        var target = event.target.closest('a, button');
+        if (!target) return;
+
+        var quickOrderSection = target.closest('.quick-order-list, quick-order-list, [id*="quick-order-list"], [class*="quick-order-list"]');
+        if (!quickOrderSection) return;
+
+        var label = (target.textContent || '').trim().toLowerCase();
+        var href = target.getAttribute('href') || '';
+        var isViewCart = label === 'view cart' || label.indexOf('view cart') !== -1 || href === '/cart' || href.indexOf('/cart?') === 0;
+        if (!isViewCart) return;
+
+        var cartDrawer = document.querySelector('cart-drawer');
+        if (!cartDrawer) cartDrawer = document.getElementById('CartDrawer');
+        if (!cartDrawer) return;
+
+        event.preventDefault();
+        event.stopImmediatePropagation();
+
+        if (typeof cartDrawer.open === 'function') {
+          cartDrawer.open();
+        } else {
+          cartDrawer.dispatchEvent(new CustomEvent('cart:open', { bubbles: true }));
+          document.dispatchEvent(new CustomEvent('cart:open', { bubbles: true }));
+        }
+      }
+    }
+
+    if (!customElements.get('quick-order-cart-bridge-{{ ai_gen_id }}')) {
+      customElements.define('quick-order-cart-bridge-{{ ai_gen_id }}', QuickOrderCartBridge{{ ai_gen_id }});
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Quick order cart bridge",
+  "settings": [
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    }
+  ],
+  "presets": [
+    {
+      "name": "Quick order cart bridge"
+    }
+  ],
+  "tag": null,
+  "class": "quick-order-cart-bridge-block"
+}
+{% endschema %}

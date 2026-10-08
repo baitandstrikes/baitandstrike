@@ -1,0 +1,156 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "bns_b2b_about_6j8xxX": {
+      "type": "bns-b2b-about",
+      "blocks": {
+        "stat_cNMErc": {
+          "type": "stat",
+          "settings": {
+            "number": "01",
+            "label": "Business First"
+          }
+        },
+        "stat_MwCy88": {
+          "type": "stat",
+          "settings": {
+            "number": "02",
+            "label": "Reliable Supply"
+          }
+        },
+        "stat_hxRwjR": {
+          "type": "stat",
+          "settings": {
+            "number": "03",
+            "label": "Competitive Pricing"
+          }
+        },
+        "stat_aF9QJW": {
+          "type": "stat",
+          "settings": {
+            "number": "04",
+            "label": "Long-Term Partnership"
+          }
+        },
+        "service_yUxkPJ": {
+          "type": "service",
+          "settings": {
+            "title": "Wide Product Selection",
+            "text": "Beragam kebutuhan fishing, tackle, accessories, dan produk pendukung bisnis."
+          }
+        },
+        "service_kdETYt": {
+          "type": "service",
+          "settings": {
+            "title": "Competitive Pricing",
+            "text": "Skema B2B yang membantu partner mendapatkan harga yang lebih kompetitif."
+          }
+        },
+        "service_wEAUqp": {
+          "type": "service",
+          "settings": {
+            "title": "Business Procurement",
+            "text": "Dukungan pengadaan untuk kebutuhan stok dan pemesanan dalam jumlah besar."
+          }
+        },
+        "service_DXBWWT": {
+          "type": "service",
+          "settings": {
+            "title": "Long-Term Partnership",
+            "text": "Kami membangun hubungan bisnis jangka panjang melalui komunikasi dan konsistensi."
+          }
+        },
+        "why_ydALnM": {
+          "type": "why",
+          "settings": {
+            "number": "01",
+            "title": "Business First",
+            "text": "Fokus pada nilai bisnis, margin, kualitas, dan kebutuhan partner."
+          }
+        },
+        "why_gBKyn8": {
+          "type": "why",
+          "settings": {
+            "number": "01",
+            "title": "Reliable Supply",
+            "text": "Membantu partner menjaga ketersediaan produk untuk operasional toko."
+          }
+        },
+        "why_idbhxa": {
+          "type": "why",
+          "settings": {
+            "number": "01",
+            "title": "Competitive Pricing",
+            "text": "Skema B2B untuk mendukung struktur harga dan margin bisnis."
+          }
+        },
+        "why_9pWJbg": {
+          "type": "why",
+          "settings": {
+            "number": "01",
+            "title": "Long-Term Partnership",
+            "text": "Membangun hubungan yang berkelanjutan, bukan sekadar transaksi."
+          }
+        }
+      },
+      "block_order": [
+        "stat_cNMErc",
+        "stat_MwCy88",
+        "stat_hxRwjR",
+        "stat_aF9QJW",
+        "service_yUxkPJ",
+        "service_kdETYt",
+        "service_wEAUqp",
+        "service_DXBWWT",
+        "why_ydALnM",
+        "why_gBKyn8",
+        "why_idbhxa",
+        "why_9pWJbg"
+      ],
+      "name": "BAITANDSTRIKE B2B About",
+      "settings": {
+        "hero_background": "shopify://shop_images/DESAIN_STIKER_KACA-OFFLINE_STORE_BNS.png",
+        "hero_background_position": "left center",
+        "hero_overlay": 0,
+        "eyebrow": "BAITANDSTRIKE B2B",
+        "heading": "Your Trusted B2B Fishing Partner",
+        "hero_text": "Partner bisnis untuk kebutuhan fishing, tackle, accessories, dan perlengkapan memancing dengan fokus pada supply, harga kompetitif, dan partnership jangka panjang.",
+        "primary_label": "Become a B2B Partner",
+        "primary_link": "https://wa.me/6281234567890?text=Halo%20BAITANDSTRIKE%2C%20saya%20tertarik%20menjadi%20B2B%20Partner.%20Mohon%20informasi%20mengenai%20syarat%20dan%20ketentuan%20kerjasamanya.",
+        "secondary_label": "Contact Our Team",
+        "secondary_link": "/pages/contact",
+        "intro_eyebrow": "Built for Business",
+        "intro_heading": "Lebih dari sekadar supplier.",
+        "intro_text": "<p>Kami memahami bahwa kebutuhan bisnis berbeda dengan kebutuhan retail. BAITANDSTRIKE membantu toko fishing, reseller, marketplace seller, distributor, dan partner bisnis mendapatkan produk dengan proses pengadaan yang lebih praktis.</p>",
+        "services_eyebrow": "What We Offer",
+        "services_heading": "Solusi untuk kebutuhan bisnis Anda.",
+        "audience_eyebrow": "Who We Serve",
+        "audience_heading": "Partner untuk berbagai bisnis fishing.",
+        "why_eyebrow": "Why BAITANDSTRIKE",
+        "why_heading": "Dibangun dengan prinsip business first.",
+        "cta_eyebrow": "Let's Work Together",
+        "cta_heading": "Ready to grow your fishing business?",
+        "cta_text": "Mari berdiskusi mengenai kebutuhan produk dan pengadaan bisnis Anda.",
+        "cta_label": "Join B2B Program",
+        "cta_link": ""
+      }
+    },
+    "pf-c533b200": {
+      "type": "pf-c533b200",
+      "disabled": true,
+      "settings": {}
+    }
+  },
+  "order": [
+    "bns_b2b_about_6j8xxX",
+    "pf-c533b200"
+  ]
+}

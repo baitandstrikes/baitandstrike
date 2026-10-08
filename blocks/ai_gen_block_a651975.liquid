@@ -1,0 +1,150 @@
+{% doc %}
+  @prompt
+    Add a button alignment setting to the WhatsApp product actions block (block ID: template--23220644380900__blocks_wTBhyb__ai_gen_block_896fd98_LgRWtR, section ID: template--23220644380900__blocks_wTBhyb). Add a select-type setting in the block schema named "button_alignment" with three options: Left, Center, Right — defaulting to Center. Apply the alignment to the button container div using flexbox (justify-content) so when there is 1 or more buttons, they align according to the chosen setting.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-whatsapp-actions-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+  }
+
+  .ai-whatsapp-actions__buttons-{{ ai_gen_id }} {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: {{ block.settings.button_alignment }};
+  }
+
+  .ai-whatsapp-actions__button-{{ ai_gen_id }} {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 10px 18px;
+    border-radius: {{ block.settings.button_radius }}px;
+    background: {{ block.settings.button_color }};
+    color: {{ block.settings.button_text_color }};
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.2;
+    text-decoration: none;
+    text-align: center;
+    transition: opacity 0.2s ease;
+  }
+
+  .ai-whatsapp-actions__button-{{ ai_gen_id }}:hover {
+    opacity: 0.85;
+  }
+
+  .ai-whatsapp-actions__button-{{ ai_gen_id }}:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
+  }
+{% endstyle %}
+
+<div class="ai-whatsapp-actions-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-whatsapp-actions__buttons-{{ ai_gen_id }}">
+    {% if block.settings.button_1_label != blank and block.settings.button_1_link != blank %}
+      <a class="ai-whatsapp-actions__button-{{ ai_gen_id }}" href="{{ block.settings.button_1_link }}" target="_blank" rel="noopener">
+        {{ block.settings.button_1_label | escape }}
+      </a>
+    {% endif %}
+    {% if block.settings.button_2_label != blank and block.settings.button_2_link != blank %}
+      <a class="ai-whatsapp-actions__button-{{ ai_gen_id }}" href="{{ block.settings.button_2_link }}" target="_blank" rel="noopener">
+        {{ block.settings.button_2_label | escape }}
+      </a>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "WhatsApp product actions",
+  "settings": [
+    {
+      "type": "text",
+      "id": "button_1_label",
+      "label": "Button 1 label",
+      "default": "Chat on WhatsApp"
+    },
+    {
+      "type": "url",
+      "id": "button_1_link",
+      "label": "Button 1 link"
+    },
+    {
+      "type": "text",
+      "id": "button_2_label",
+      "label": "Button 2 label",
+      "default": "Ask about this product"
+    },
+    {
+      "type": "url",
+      "id": "button_2_link",
+      "label": "Button 2 link"
+    },
+    {
+      "type": "select",
+      "id": "button_alignment",
+      "label": "Button alignment",
+      "options": [
+        {
+          "value": "flex-start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "flex-end",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "color",
+      "id": "button_color",
+      "label": "Button background",
+      "default": "#128C7E"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "button_radius",
+      "label": "Button radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 6
+    }
+  ],
+  "presets": [
+    {
+      "name": "WhatsApp product actions"
+    }
+  ],
+  "tag": null,
+  "class": "whatsapp-product-actions"
+}
+{% endschema %}

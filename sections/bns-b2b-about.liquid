@@ -1,0 +1,2539 @@
+{% comment %}
+  BAITANDSTRIKE — B2B About Us
+  FULL VERSION
+  HERO IMAGE ABOVE + CONTENT BELOW
+
+  FEATURES:
+  - Hero image upload
+  - Hero image position
+  - Hero overlay on image
+  - Text completely below image
+  - Responsive desktop/tablet/mobile
+  - Reveal animation
+  - BNS blue + yellow system
+  - Functional buttons
+{% endcomment %}
+
+<section id="BNS-about-{{ section.id }}" class="bns-about">
+
+  <!-- =====================================================
+       HERO IMAGE
+       ===================================================== -->
+
+  <div class="bns-about__hero">
+
+    {% if section.settings.hero_background != blank %}
+
+      <div class="bns-about__hero-media">
+
+        {{
+          section.settings.hero_background
+          | image_url: width: 2400
+          | image_tag:
+            class: 'bns-about__hero-image',
+            loading: 'eager',
+            widths: '600,900,1200,1600,2000,2400',
+            sizes: '100vw',
+            alt: ''
+        }}
+
+        <div
+          class="bns-about__hero-image-overlay"
+          style="
+            --bns-hero-overlay: {{ section.settings.hero_overlay | divided_by: 100.0 }};
+            --bns-hero-overlay-secondary: {{ section.settings.hero_overlay | times: 0.75 | divided_by: 100.0 }};
+          "
+        ></div>
+
+      </div>
+
+    {% endif %}
+
+
+    <!-- ===================================================
+         HERO CONTENT
+         =================================================== -->
+
+    <div class="bns-about__hero-content">
+
+      <div class="bns-about__hero-decoration"></div>
+
+      <div class="bns-about__hero-inner">
+
+        {% if section.settings.eyebrow != blank %}
+
+          <span class="bns-eyebrow">
+            {{ section.settings.eyebrow }}
+          </span>
+
+        {% endif %}
+
+
+        {% if section.settings.heading != blank %}
+
+          <h1>
+            {{ section.settings.heading }}
+          </h1>
+
+        {% endif %}
+
+
+        {% if section.settings.hero_text != blank %}
+
+          <p class="bns-about__hero-text">
+            {{ section.settings.hero_text }}
+          </p>
+
+        {% endif %}
+
+
+        <div class="bns-about__actions">
+
+          {% if section.settings.primary_label != blank %}
+
+            <a
+              class="bns-btn bns-btn--primary"
+              href="{{ section.settings.primary_link | default: '#' }}"
+            >
+              {{ section.settings.primary_label }}
+            </a>
+
+          {% endif %}
+
+
+          {% if section.settings.secondary_label != blank %}
+
+            <a
+              class="bns-btn bns-btn--ghost"
+              href="{{ section.settings.secondary_link | default: '#' }}"
+            >
+              {{ section.settings.secondary_label }}
+            </a>
+
+          {% endif %}
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =====================================================
+       MAIN CONTENT
+       ===================================================== -->
+
+  <div class="bns-about__container">
+
+
+    <!-- ===================================================
+         INTRO
+         =================================================== -->
+
+    <div class="bns-intro bns-reveal">
+
+      <div>
+
+        {% if section.settings.intro_eyebrow != blank %}
+
+          <span class="bns-eyebrow">
+            {{ section.settings.intro_eyebrow }}
+          </span>
+
+        {% endif %}
+
+
+        {% if section.settings.intro_heading != blank %}
+
+          <h2>
+            {{ section.settings.intro_heading }}
+          </h2>
+
+        {% endif %}
+
+      </div>
+
+
+      <div class="bns-intro__copy">
+
+        {{ section.settings.intro_text }}
+
+      </div>
+
+    </div>
+
+
+    <!-- ===================================================
+         STATS
+         =================================================== -->
+
+    <div class="bns-stats">
+
+      {% for block in section.blocks %}
+
+        {% if block.type == 'stat' %}
+
+          <div
+            class="bns-stat bns-reveal"
+            {{ block.shopify_attributes }}
+          >
+
+            <strong>
+              {{ block.settings.number }}
+            </strong>
+
+            <span>
+              {{ block.settings.label }}
+            </span>
+
+          </div>
+
+        {% endif %}
+
+      {% endfor %}
+
+    </div>
+
+
+    <!-- ===================================================
+         SERVICES
+         =================================================== -->
+
+    <div class="bns-section-head bns-reveal">
+
+      {% if section.settings.services_eyebrow != blank %}
+
+        <span class="bns-eyebrow">
+          {{ section.settings.services_eyebrow }}
+        </span>
+
+      {% endif %}
+
+
+      {% if section.settings.services_heading != blank %}
+
+        <h2>
+          {{ section.settings.services_heading }}
+        </h2>
+
+      {% endif %}
+
+    </div>
+
+
+    <div class="bns-cards">
+
+      {% assign service_index = 0 %}
+
+      {% for block in section.blocks %}
+
+        {% if block.type == 'service' %}
+
+          {% assign service_index = service_index | plus: 1 %}
+
+          <article
+            class="bns-card bns-reveal"
+            {{ block.shopify_attributes }}
+          >
+
+            <div class="bns-card__top">
+
+              <div class="bns-card__number">
+
+                {% if service_index < 10 %}
+                  0{{ service_index }}
+                {% else %}
+                  {{ service_index }}
+                {% endif %}
+
+              </div>
+
+              <div class="bns-card__dot"></div>
+
+            </div>
+
+
+            {% if block.settings.title != blank %}
+
+              <h3>
+                {{ block.settings.title }}
+              </h3>
+
+            {% endif %}
+
+
+            {% if block.settings.text != blank %}
+
+              <p>
+                {{ block.settings.text }}
+              </p>
+
+            {% endif %}
+
+          </article>
+
+        {% endif %}
+
+      {% endfor %}
+
+    </div>
+
+
+    <!-- ===================================================
+         AUDIENCE
+         =================================================== -->
+
+    <div class="bns-audience bns-reveal">
+
+      <div class="bns-section-head">
+
+        {% if section.settings.audience_eyebrow != blank %}
+
+          <span class="bns-eyebrow">
+            {{ section.settings.audience_eyebrow }}
+          </span>
+
+        {% endif %}
+
+
+        {% if section.settings.audience_heading != blank %}
+
+          <h2>
+            {{ section.settings.audience_heading }}
+          </h2>
+
+        {% endif %}
+
+      </div>
+
+
+      <div class="bns-audience__grid">
+
+        {% for block in section.blocks %}
+
+          {% if block.type == 'audience' %}
+
+            <div
+              class="bns-audience__item"
+              {{ block.shopify_attributes }}
+            >
+
+              <span class="bns-audience__icon">
+                {{ block.settings.icon }}
+              </span>
+
+
+              <div>
+
+                {% if block.settings.title != blank %}
+
+                  <h3>
+                    {{ block.settings.title }}
+                  </h3>
+
+                {% endif %}
+
+
+                {% if block.settings.text != blank %}
+
+                  <p>
+                    {{ block.settings.text }}
+                  </p>
+
+                {% endif %}
+
+              </div>
+
+            </div>
+
+          {% endif %}
+
+        {% endfor %}
+
+      </div>
+
+    </div>
+
+
+    <!-- ===================================================
+         WHY BAITANDSTRIKE
+         =================================================== -->
+
+    <div class="bns-why bns-reveal">
+
+      <div class="bns-section-head">
+
+        {% if section.settings.why_eyebrow != blank %}
+
+          <span class="bns-eyebrow">
+            {{ section.settings.why_eyebrow }}
+          </span>
+
+        {% endif %}
+
+
+        {% if section.settings.why_heading != blank %}
+
+          <h2>
+            {{ section.settings.why_heading }}
+          </h2>
+
+        {% endif %}
+
+      </div>
+
+
+      <div class="bns-why__grid">
+
+        {% for block in section.blocks %}
+
+          {% if block.type == 'why' %}
+
+            <div
+              class="bns-why__item"
+              {{ block.shopify_attributes }}
+            >
+
+              <strong>
+                {{ block.settings.number }}
+              </strong>
+
+
+              {% if block.settings.title != blank %}
+
+                <h3>
+                  {{ block.settings.title }}
+                </h3>
+
+              {% endif %}
+
+
+              {% if block.settings.text != blank %}
+
+                <p>
+                  {{ block.settings.text }}
+                </p>
+
+              {% endif %}
+
+            </div>
+
+          {% endif %}
+
+        {% endfor %}
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =====================================================
+       CTA
+       ===================================================== -->
+
+  <div class="bns-about__cta bns-reveal">
+
+    <div class="bns-about__cta-pattern"></div>
+
+    <div class="bns-about__cta-inner">
+
+      {% if section.settings.cta_eyebrow != blank %}
+
+        <span class="bns-eyebrow">
+          {{ section.settings.cta_eyebrow }}
+        </span>
+
+      {% endif %}
+
+
+      {% if section.settings.cta_heading != blank %}
+
+        <h2>
+          {{ section.settings.cta_heading }}
+        </h2>
+
+      {% endif %}
+
+
+      {% if section.settings.cta_text != blank %}
+
+        <p>
+          {{ section.settings.cta_text }}
+        </p>
+
+      {% endif %}
+
+
+      {% if section.settings.cta_label != blank %}
+
+        <a
+          class="bns-btn bns-btn--yellow"
+          href="{{ section.settings.cta_link | default: '#' }}"
+        >
+          {{ section.settings.cta_label }}
+        </a>
+
+      {% endif %}
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<style>
+
+  /* =========================================================
+     BNS BASE
+     ========================================================= */
+
+  #BNS-about-{{ section.id }} {
+
+    --bns-blue: #3282C0;
+    --bns-yellow: #FCDD16;
+
+    --bns-blue-dark: #17547F;
+    --bns-blue-deep: #123F5F;
+    --bns-blue-light: #EAF5FC;
+
+    --bns-white: #FFFFFF;
+    --bns-black: #14212B;
+
+    --bns-text: #263746;
+    --bns-muted: #647786;
+
+    --bns-line: rgba(50,130,192,.16);
+
+    background: #FFFFFF;
+
+    color: var(--bns-text);
+
+    position: relative;
+
+    overflow: hidden;
+
+    isolation: isolate;
+
+    font-family: inherit;
+
+  }
+
+
+  #BNS-about-{{ section.id }} * {
+
+    box-sizing: border-box;
+
+  }
+
+
+  /* =========================================================
+     HERO
+     ========================================================= */
+
+  #BNS-about-{{ section.id }} .bns-about__hero {
+
+    position: relative;
+
+    width: 100%;
+
+    overflow: hidden;
+
+    background: #FFFFFF;
+
+  }
+
+
+  /* =========================================================
+     HERO IMAGE
+     ========================================================= */
+
+  #BNS-about-{{ section.id }} .bns-about__hero-media {
+
+    position: relative !important;
+
+    width: 100% !important;
+
+    height: clamp(320px, 42vw, 580px) !important;
+
+    overflow: hidden !important;
+
+    display: block !important;
+
+    margin: 0 !important;
+
+    padding: 0 !important;
+
+    border: 0 !important;
+
+    background: #3282C0;
+
+    z-index: 1;
+
+  }
+
+
+  #BNS-about-{{ section.id }} .bns-about__hero-image {
+
+    position: absolute !important;
+
+    inset: 0 !important;
+
+    display: block !important;
+
+    width: 100% !important;
+
+    height: 100% !important;
+
+    min-width: 100% !important;
+
+    min-height: 100% !important;
+
+    max-width: none !important;
+
+    max-height: none !important;
+
+    margin: 0 !important;
+
+    padding: 0 !important;
+
+    border: 0 !important;
+
+    outline: none !important;
+
+    box-shadow: none !important;
+
+    object-fit: cover !important;
+
+    object-position:
+      {{ section.settings.hero_background_position }}
+      !important;
+
+    transition:
+      transform 1.2s ease;
+
+  }
+
+
+  #BNS-about-{{ section.id }} .bns-about__hero-media:hover
+  .bns-about__hero-image {
+
+    transform: scale(1.035);
+
+  }
+
+
+  /* =========================================================
+     HERO IMAGE OVERLAY
+     ========================================================= */
+
+  #BNS-about-{{ section.id }} .bns-about__hero-image-overlay {
+
+    position: absolute !important;
+
+    inset: 0 !important;
+
+    width: 100% !important;
+
+    height: 100% !important;
+
+    margin: 0 !important;
+
+    padding: 0 !important;
+
+    border: 0 !important;
+
+    pointer-events: none !important;
+
+    background:
+
+      linear-gradient(
+        90deg,
+        rgba(
+          20,
+          80,
+          125,
+          var(--bns-hero-overlay)
+        ),
+        rgba(
+          50,
+          130,
+          192,
+          var(--bns-hero-overlay-secondary)
+        )
+      ) !important;
+
+    z-index: 2;
+
+  }
+
+
+  /* =========================================================
+     HERO CONTENT
+     ========================================================= */
+
+  #BNS-about-{{ section.id }} .bns-about__hero-content {
+
+    position: relative;
+
+    width: 100%;
+
+    overflow: hidden;
+
+    background:
+
+      radial-gradient(
+        circle at 88% 15%,
+        rgba(252,221,22,.20),
+        transparent 25%
+      ),
+
+      radial-gradient(
+        circle at 8% 90%,
+        rgba(255,255,255,.08),
+        transparent 28%
+      ),
+
+      linear-gradient(
+        135deg,
+        #3282C0 0%,
+        #2C75AE 50%,
+        #24689D 100%
+      );
+
+    color: #FFFFFF;
+
+    z-index: 3;
+
+  }
+
+
+  /* =========================================================
+     HERO DECORATION
+     ========================================================= */
+
+  #BNS-about-{{ section.id }} .bns-about__hero-decoration {
+
+    position: absolute;
+
+    width: 480px;
+
+    height: 480px;
+
+    right: -220px;
+
+    top: -250px;
+
+    border: 80px solid rgba(255,255,255,.055);
+
+    border-radius: 50%;
+
+    pointer-events: none;
+
+  }
+
+
+  #BNS-about-{{ section.id }} .bns-about__hero-decoration:after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 220px;
+
+    height: 220px;
+
+    left: 50px;
+
+    top: 50px;
+
+    border: 35px solid rgba(252,221,22,.13);
+
+    border-radius: 50%;
+
+  }
+
+
+  /* =========================================================
+     HERO WATERMARK
+     ========================================================= */
+
+  #BNS-about-{{ section.id }} .bns-about__hero-content:after {
+
+    content: "BAITANDSTRIKE";
+
+    position: absolute;
+
+    right: -2%;
+
+    bottom: -12px;
+
+    font-size: clamp(65px,11vw,165px);
+
+    line-height: .8;
+
+    font-weight: 900;
+
+    letter-spacing: -.08em;
+
+    color: rgba(255,255,255,.045);
+
+    pointer-events: none;
+
+    white-space: nowrap;
+
+    z-index: 1;
+
+  }
+
+
+  /* =========================================================
+     HERO INNER
+     ========================================================= */
+
+  #BNS-about-{{ section.id }} .bns-about__hero-inner {
+
+    position: relative;
+
+    z-index: 4;
+
+    width: min(
+      1180px,
+      calc(100% - 40px)
+    );
+
+    margin: 0 auto;
+
+    padding: 72px 0 78px;
+
+  }
+
+
+  /* =========================================================
+     HERO EYEBROW
+     ========================================================= */
+
+  #BNS-about-{{ section.id }} .bns-eyebrow {
+
+    display: inline-block;
+
+    color: var(--bns-yellow);
+
+    font-size: 12px;
+
+    line-height: 1.2;
+
+    font-weight: 900;
+
+    letter-spacing: .18em;
+
+    text-transform: uppercase;
+
+    margin-bottom: 18px;
+
+  }
+
+
+  /* =========================================================
+     HERO HEADING
+     ========================================================= */
+
+  #BNS-about-{{ section.id }} .bns-about__hero-inner h1 {
+
+    max-width: 850px;
+
+    margin: 0 0 25px;
+
+    font-size: clamp(
+      44px,
+      6vw,
+      78px
+    );
+
+    line-height: .95;
+
+    letter-spacing: -.055em;
+
+    font-weight: 900;
+
+    color: #FFFFFF;
+
+  }
+
+
+  /* =========================================================
+     HERO TEXT
+     ========================================================= */
+
+  #BNS-about-{{ section.id }} .bns-about__hero-text {
+
+    max-width: 720px;
+
+    margin: 0 0 34px;
+
+    color: rgba(255,255,255,.91);
+
+    font-size: 18px;
+
+    line-height: 1.75;
+
+  }
+
+
+  /* =========================================================
+     BUTTONS
+     ========================================================= */
+
+  #BNS-about-{{ section.id }} .bns-about__actions {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 12px;
+
+  }
+
+
+  #BNS-about-{{ section.id }} .bns-btn {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    min-height: 52px;
+
+    padding: 0 27px;
+
+    border-radius: 4px;
+
+    text-decoration: none;
+
+    text-transform: uppercase;
+
+    letter-spacing: .08em;
+
+    font-size: 12px;
+
+    line-height: 1;
+
+    font-weight: 900;
+
+    cursor: pointer;
+
+    transition:
+      transform .25s ease,
+      background .25s ease,
+      color .25s ease,
+      box-shadow .25s ease;
+
+  }
+
+
+  #BNS-about-{{ section.id }} .bns-btn:hover {
+
+    transform: translateY(-3px);
+
+  }
+
+
+  #BNS-about-{{ section.id }} .bns-btn--primary {
+
+    background: var(--bns-yellow);
+
+    color: #16222B;
+
+    box-shadow:
+      0 8px 25px rgba(252,221,22,.20);
+
+  }
+
+
+  #BNS-about-{{ section.id }} .bns-btn--primary:hover {
+
+    background: #FFE84B;
+
+    color: #16222B;
+
+    box-shadow:
+      0 12px 30px rgba(252,221,22,.30);
+
+  }
+
+
+  #BNS-about-{{ section.id }} .bns-btn--ghost {
+
+    background: transparent;
+
+    color: #FFFFFF;
+
+    border: 2px solid rgba(255,255,255,.75);
+
+  }
+
+
+  #BNS-about-{{ section.id }} .bns-btn--ghost:hover {
+
+    background: #FFFFFF;
+
+    border-color: #FFFFFF;
+
+    color: var(--bns-blue);
+
+  }
+
+
+  #BNS-about-{{ section.id }} .bns-btn--yellow {
+
+    background: var(--bns-yellow);
+
+    color: #17222A;
+
+    box-shadow:
+      0 10px 30px rgba(252,221,22,.22);
+
+  }
+
+
+  #BNS-about-{{ section.id }} .bns-btn--yellow:hover {
+
+    background: #FFE84B;
+
+    color: #17222A;
+
+    transform: translateY(-3px) scale(1.02);
+
+  }
+
+
+  /* =========================================================
+     MAIN
+     ========================================================= */
+
+  #BNS-about-{{ section.id }} .bns-about__container {
+
+    width: min(
+      1180px,
+      calc(100% - 40px)
+    );
+
+    margin: 0 auto;
+
+    padding: 100px 0;
+
+    background: #FFFFFF;
+
+  }
+
+
+  /* =========================================================
+     INTRO
+     ========================================================= */
+
+  #BNS-about-{{ section.id }} .bns-intro {
+
+    display: grid;
+
+    grid-template-columns: .9fr 1.1fr;
+
+    gap: 80px;
+
+    align-items: start;
+
+    padding-bottom: 70px;
+
+    border-bottom: 1px solid var(--bns-line);
+
+  }
+
+
+  #BNS-about-{{ section.id }} .bns-intro h2 {
+
+    margin: 0;
+
+    font-size: clamp(
+      34px,
+      4vw,
+      54px
+    );
+
+    line-height: 1.02;
+
+    letter-spacing: -.045em;
+
+    font-weight: 850;
+
+    color: var(--bns-blue-dark);
+
+  }
+
+
+  #BNS-about-{{ section.id }} .bns-intro__copy {
+
+    color: var(--bns-muted);
+
+    font-size: 17px;
+
+    line-height: 1.85;
+
+    max-width: 650px;
+
+  }
+
+
+  #BNS-about-{{ section.id }} .bns-intro__copy p:last-child {
+
+    margin-bottom: 0;
+
+  }
+
+
+  /* =========================================================
+     COMMON H2
+     ========================================================= */
+
+  #BNS-about-{{ section.id }} h2 {
+
+    font-size: clamp(
+      34px,
+      4vw,
+      54px
+    );
+
+    line-height: 1.02;
+
+    letter-spacing: -.045em;
+
+    font-weight: 850;
+
+    color: var(--bns-blue-dark);
+
+    margin: 0 0 18px;
+
+  }
+
+
+  #BNS-about-{{ section.id }} h3 {
+
+    margin-top: 0;
+
+  }
+
+
+  /* =========================================================
+     STATS
+     ========================================================= */
+
+  #BNS-about-{{ section.id }} .bns-stats {
+
+    display: grid;
+
+    grid-template-columns: repeat(4,1fr);
+
+    gap: 1px;
+
+    background: var(--bns-line);
+
+    margin: 70px 0 110px;
+
+    border: 1px solid var(--bns-line);
+
+    overflow: hidden;
+
+  }
+
+
+  #BNS-about-{{ section.id }} .bns-stat {
+
+    position: relative;
+
+    padding: 35px 25px;
+
+    background: #FFFFFF;
+
+    transition:
+      background .25s ease,
+      transform .25s ease;
+
+  }
+
+
+  #BNS-about-{{ section.id }} .bns-stat:hover {
+
+    background: var(--bns-blue-light);
+
+  }
+
+
+  #BNS-about-{{ section.id }} .bns-stat:before {
+
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+
+    left: 0;
+
+    width: 100%;
+
+    height: 4px;
+
+    background: var(--bns-yellow);
+
+  }
+
+
+  #BNS-about-{{ section.id }} .bns-stat strong {
+
+    display: block;
+
+    color: var(--bns-blue);
+
+    font-size: 38px;
+
+    line-height: 1;
+
+    margin-bottom: 10px;
+
+    font-weight: 900;
+
+  }
+
+
+  #BNS-about-{{ section.id }} .bns-stat span {
+
+    color: var(--bns-muted);
+
+    font-size: 13px;
+
+    text-transform: uppercase;
+
+    letter-spacing: .1em;
+
+    font-weight: 700;
+
+  }
+
+
+  /* =========================================================
+     SECTION HEAD
+     ========================================================= */
+
+  #BNS-about-{{ section.id }} .bns-section-head {
+
+    margin-bottom: 40px;
+
+  }
+
+
+  /* =========================================================
+     SERVICE CARDS
+     ========================================================= */
+
+  #BNS-about-{{ section.id }} .bns-cards {
+
+    display: grid;
+
+    grid-template-columns: repeat(4,1fr);
+
+    gap: 14px;
+
+    margin-bottom: 130px;
+
+  }
+
+
+  #BNS-about-{{ section.id }} .bns-card {
+
+    position: relative;
+
+    min-height: 270px;
+
+    padding: 30px;
+
+    border: 1px solid var(--bns-line);
+
+    background:
+      linear-gradient(
+        145deg,
+        #FFFFFF,
+        #F7FBFE
+      );
+
+    overflow: hidden;
+
+    transition:
+      transform .3s ease,
+      border-color .3s ease,
+      box-shadow .3s ease;
+
+  }
+
+
+  #BNS-about-{{ section.id }} .bns-card:after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 130px;
+
+    height: 130px;
+
+    right: -65px;
+
+    bottom: -65px;
+
+    border-radius: 50%;
+
+    background: rgba(50,130,192,.08);
+
+    transition:
+      transform .4s ease;
+
+  }
+
+
+  #BNS-about-{{ section.id }} .bns-card:hover {
+
+    transform: translateY(-8px);
+
+    border-color: var(--bns-blue);
+
+    box-shadow:
+      0 15px 40px rgba(50,130,192,.12);
+
+  }
+
+
+  #BNS-about-{{ section.id }} .bns-card:hover:after {
+
+    transform: scale(1.6);
+
+  }
+
+
+  #BNS-about-{{ section.id }} .bns-card__top {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-bottom: 65px;
+
+  }
+
+
+  #BNS-about-{{ section.id }} .bns-card__number {
+
+    color: var(--bns-blue);
+
+    font-weight: 900;
+
+    font-size: 12px;
+
+    letter-spacing: .1em;
+
+  }
+
+
+  #BNS-about-{{ section.id }} .bns-card__dot {
+
+    width: 10px;
+
+    height: 10px;
+
+    flex: 0 0 10px;
+
+    border-radius: 50%;
+
+    background: var(--bns-yellow);
+
+    box-shadow:
+      0 0 0 5px rgba(252,221,22,.14);
+
+  }
+
+
+  #BNS-about-{{ section.id }} .bns-card h3,
+  #BNS-about-{{ section.id }} .bns-audience__item h3,
+  #BNS-about-{{ section.id }} .bns-why__item h3 {
+
+    font-size: 19px;
+
+    margin: 0 0 12px;
+
+    color: var(--bns-blue-dark);
+
+    font-weight: 800;
+
+  }
+
+
+  #BNS-about-{{ section.id }} .bns-card p,
+  #BNS-about-{{ section.id }} .bns-audience__item p,
+  #BNS-about-{{ section.id }} .bns-why__item p {
+
+    color: var(--bns-muted);
+
+    font-size: 14px;
+
+    line-height: 1.7;
+
+    margin: 0;
+
+  }
+
+
+  /* =========================================================
+     AUDIENCE
+     ========================================================= */
+
+  #BNS-about-{{ section.id }} .bns-audience {
+
+    position: relative;
+
+    padding: 90px 0;
+
+    margin-bottom: 90px;
+
+    border-top: 1px solid var(--bns-line);
+
+    border-bottom: 1px solid var(--bns-line);
+
+  }
+
+
+  #BNS-about-{{ section.id }} .bns-audience:before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 220px;
+
+    height: 220px;
+
+    right: -120px;
+
+    top: 40px;
+
+    border-radius: 50%;
+
+    background: var(--bns-blue-light);
+
+    pointer-events: none;
+
+  }
+
+
+  #BNS-about-{{ section.id }} .bns-audience__grid {
+
+    position: relative;
+
+    z-index: 1;
+
+    display: grid;
+
+    grid-template-columns: repeat(2,1fr);
+
+    gap: 1px;
+
+    background: var(--bns-line);
+
+    border: 1px solid var(--bns-line);
+
+  }
+
+
+  #BNS-about-{{ section.id }} .bns-audience__item {
+
+    display: flex;
+
+    gap: 20px;
+
+    padding: 30px;
+
+    background: #FFFFFF;
+
+    transition:
+      background .25s ease,
+      transform .25s ease;
+
+  }
+
+
+  #BNS-about-{{ section.id }} .bns-audience__item:hover {
+
+    background: var(--bns-blue-light);
+
+    transform: translateX(4px);
+
+  }
+
+
+  #BNS-about-{{ section.id }} .bns-audience__icon {
+
+    flex: 0 0 44px;
+
+    width: 44px;
+
+    height: 44px;
+
+    display: grid;
+
+    place-items: center;
+
+    border: 2px solid var(--bns-blue);
+
+    color: var(--bns-blue);
+
+    background: #FFFFFF;
+
+    font-weight: 900;
+
+    font-size: 13px;
+
+  }
+
+
+  /* =========================================================
+     WHY
+     ========================================================= */
+
+  #BNS-about-{{ section.id }} .bns-why {
+
+    margin-bottom: 30px;
+
+  }
+
+
+  #BNS-about-{{ section.id }} .bns-why__grid {
+
+    display: grid;
+
+    grid-template-columns: repeat(4,1fr);
+
+    gap: 30px;
+
+  }
+
+
+  #BNS-about-{{ section.id }} .bns-why__item {
+
+    position: relative;
+
+    padding-top: 25px;
+
+    border-top: 3px solid var(--bns-blue);
+
+  }
+
+
+  #BNS-about-{{ section.id }} .bns-why__item:after {
+
+    content: "";
+
+    position: absolute;
+
+    top: -3px;
+
+    left: 0;
+
+    width: 45px;
+
+    height: 3px;
+
+    background: var(--bns-yellow);
+
+  }
+
+
+  #BNS-about-{{ section.id }} .bns-why__item > strong {
+
+    display: block;
+
+    color: var(--bns-blue);
+
+    font-size: 12px;
+
+    margin-bottom: 45px;
+
+    font-weight: 900;
+
+  }
+
+
+  /* =========================================================
+     CTA
+     ========================================================= */
+
+  #BNS-about-{{ section.id }} .bns-about__cta {
+
+    position: relative;
+
+    overflow: hidden;
+
+    background:
+
+      radial-gradient(
+        circle at 50% 0%,
+        rgba(252,221,22,.20),
+        transparent 32%
+      ),
+
+      linear-gradient(
+        135deg,
+        #3282C0,
+        #24689D
+      );
+
+    border-top: 1px solid rgba(50,130,192,.2);
+
+    color: #FFFFFF;
+
+    text-align: center;
+
+  }
+
+
+  #BNS-about-{{ section.id }} .bns-about__cta-pattern {
+
+    position: absolute;
+
+    width: 400px;
+
+    height: 400px;
+
+    left: -170px;
+
+    bottom: -200px;
+
+    border-radius: 50%;
+
+    border: 65px solid rgba(255,255,255,.05);
+
+    pointer-events: none;
+
+  }
+
+
+  #BNS-about-{{ section.id }} .bns-about__cta-inner {
+
+    position: relative;
+
+    z-index: 2;
+
+    width: min(
+      1180px,
+      calc(100% - 40px)
+    );
+
+    margin: 0 auto;
+
+    padding: 100px 20px;
+
+  }
+
+
+  #BNS-about-{{ section.id }} .bns-about__cta h2 {
+
+    max-width: 800px;
+
+    margin: 0 auto 18px;
+
+    color: #FFFFFF;
+
+  }
+
+
+  #BNS-about-{{ section.id }} .bns-about__cta p {
+
+    max-width: 620px;
+
+    margin: 0 auto 30px;
+
+    color: rgba(255,255,255,.88);
+
+    line-height: 1.7;
+
+  }
+
+
+  /* =========================================================
+     REVEAL
+     ========================================================= */
+
+  #BNS-about-{{ section.id }} .bns-reveal {
+
+    opacity: 0;
+
+    transform: translateY(25px);
+
+    transition:
+      opacity .7s ease,
+      transform .7s ease;
+
+  }
+
+
+  #BNS-about-{{ section.id }} .bns-reveal.is-visible {
+
+    opacity: 1;
+
+    transform: translateY(0);
+
+  }
+
+
+  /* =========================================================
+     TABLET
+     ========================================================= */
+
+  @media (max-width: 900px) {
+
+    #BNS-about-{{ section.id }} .bns-intro {
+
+      grid-template-columns: 1fr 1fr;
+
+      gap: 40px;
+
+    }
+
+
+    #BNS-about-{{ section.id }} .bns-cards {
+
+      grid-template-columns: repeat(2,1fr);
+
+    }
+
+
+    #BNS-about-{{ section.id }} .bns-stats {
+
+      grid-template-columns: repeat(2,1fr);
+
+    }
+
+
+    #BNS-about-{{ section.id }} .bns-why__grid {
+
+      grid-template-columns: repeat(2,1fr);
+
+    }
+
+  }
+
+
+  /* =========================================================
+     MOBILE
+     ========================================================= */
+
+  @media (max-width: 640px) {
+
+    #BNS-about-{{ section.id }} .bns-about__hero-media {
+
+      height: 300px !important;
+
+    }
+
+
+    #BNS-about-{{ section.id }} .bns-about__hero-image {
+
+      object-position: center center !important;
+
+    }
+
+
+    #BNS-about-{{ section.id }} .bns-about__hero-inner {
+
+      width: calc(100% - 28px);
+
+      padding: 55px 0 60px;
+
+    }
+
+
+    #BNS-about-{{ section.id }} .bns-about__hero-inner h1 {
+
+      font-size: clamp(
+        38px,
+        11vw,
+        58px
+      );
+
+    }
+
+
+    #BNS-about-{{ section.id }} .bns-about__hero-text {
+
+      font-size: 16px;
+
+      line-height: 1.7;
+
+    }
+
+
+    #BNS-about-{{ section.id }} .bns-about__actions {
+
+      flex-direction: column;
+
+      align-items: stretch;
+
+    }
+
+
+    #BNS-about-{{ section.id }} .bns-btn {
+
+      width: 100%;
+
+    }
+
+
+    #BNS-about-{{ section.id }} .bns-about__container {
+
+      width: calc(100% - 28px);
+
+      padding: 70px 0;
+
+    }
+
+
+    #BNS-about-{{ section.id }} .bns-intro {
+
+      grid-template-columns: 1fr;
+
+      gap: 25px;
+
+    }
+
+
+    #BNS-about-{{ section.id }} .bns-stats {
+
+      grid-template-columns: 1fr;
+
+      margin: 55px 0 80px;
+
+    }
+
+
+    #BNS-about-{{ section.id }} .bns-cards {
+
+      grid-template-columns: 1fr;
+
+      margin-bottom: 90px;
+
+    }
+
+
+    #BNS-about-{{ section.id }} .bns-card {
+
+      min-height: 230px;
+
+    }
+
+
+    #BNS-about-{{ section.id }} .bns-card__top {
+
+      margin-bottom: 45px;
+
+    }
+
+
+    #BNS-about-{{ section.id }} .bns-audience {
+
+      padding: 65px 0;
+
+      margin-bottom: 70px;
+
+    }
+
+
+    #BNS-about-{{ section.id }} .bns-audience__grid {
+
+      grid-template-columns: 1fr;
+
+    }
+
+
+    #BNS-about-{{ section.id }} .bns-why__grid {
+
+      grid-template-columns: 1fr;
+
+      gap: 35px;
+
+    }
+
+
+    #BNS-about-{{ section.id }} .bns-about__cta-inner {
+
+      width: calc(100% - 28px);
+
+      padding: 75px 0;
+
+    }
+
+
+    #BNS-about-{{ section.id }} .bns-about__hero-content:after {
+
+      font-size: 65px;
+
+    }
+
+  }
+
+
+  /* =========================================================
+     REDUCED MOTION
+     ========================================================= */
+
+  @media (prefers-reduced-motion: reduce) {
+
+    #BNS-about-{{ section.id }} .bns-reveal {
+
+      opacity: 1;
+
+      transform: none;
+
+      transition: none;
+
+    }
+
+
+    #BNS-about-{{ section.id }} .bns-card,
+    #BNS-about-{{ section.id }} .bns-btn,
+    #BNS-about-{{ section.id }} .bns-about__hero-image {
+
+      transition: none;
+
+    }
+
+  }
+
+</style>
+
+
+<script>
+
+  (() => {
+
+    const root = document.getElementById(
+      'BNS-about-{{ section.id }}'
+    );
+
+    if (!root) return;
+
+    if (root.dataset.bnsReady === 'true') return;
+
+    root.dataset.bnsReady = 'true';
+
+
+    const items = root.querySelectorAll(
+      '.bns-reveal'
+    );
+
+
+    if (!items.length) return;
+
+
+    if (!('IntersectionObserver' in window)) {
+
+      items.forEach((item) => {
+
+        item.classList.add(
+          'is-visible'
+        );
+
+      });
+
+      return;
+
+    }
+
+
+    const observer =
+      new IntersectionObserver(
+
+        (entries) => {
+
+          entries.forEach((entry) => {
+
+            if (entry.isIntersecting) {
+
+              entry.target.classList.add(
+                'is-visible'
+              );
+
+              observer.unobserve(
+                entry.target
+              );
+
+            }
+
+          });
+
+        },
+
+        {
+          threshold: 0.12
+        }
+
+      );
+
+
+    items.forEach((item, index) => {
+
+      item.style.transitionDelay =
+        `${Math.min(index * 45, 300)}ms`;
+
+      observer.observe(item);
+
+    });
+
+  })();
+
+</script>
+
+
+{% schema %}
+
+{
+  "name": "BAITANDSTRIKE B2B About",
+  "tag": "section",
+  "class": "section-bns-b2b-about",
+
+  "settings": [
+
+    {
+      "type": "header",
+      "content": "Hero Background"
+    },
+
+    {
+      "type": "image_picker",
+      "id": "hero_background",
+      "label": "Hero background image"
+    },
+
+    {
+      "type": "select",
+      "id": "hero_background_position",
+      "label": "Background position",
+      "default": "center center",
+      "options": [
+        {
+          "value": "center center",
+          "label": "Center"
+        },
+        {
+          "value": "center top",
+          "label": "Top"
+        },
+        {
+          "value": "center bottom",
+          "label": "Bottom"
+        },
+        {
+          "value": "left center",
+          "label": "Left"
+        },
+        {
+          "value": "right center",
+          "label": "Right"
+        }
+      ]
+    },
+
+    {
+      "type": "range",
+      "id": "hero_overlay",
+      "label": "Background overlay",
+      "min": 0,
+      "max": 90,
+      "step": 5,
+      "unit": "%",
+      "default": 35
+    },
+
+
+    {
+      "type": "header",
+      "content": "Hero Content"
+    },
+
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Hero eyebrow",
+      "default": "BAITANDSTRIKE B2B"
+    },
+
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Hero heading",
+      "default": "Your Trusted B2B Fishing Partner"
+    },
+
+    {
+      "type": "textarea",
+      "id": "hero_text",
+      "label": "Hero text",
+      "default": "Partner bisnis untuk kebutuhan fishing, tackle, accessories, dan perlengkapan memancing dengan fokus pada supply, harga kompetitif, dan partnership jangka panjang."
+    },
+
+    {
+      "type": "text",
+      "id": "primary_label",
+      "label": "Primary button",
+      "default": "Become a B2B Partner"
+    },
+
+    {
+      "type": "url",
+      "id": "primary_link",
+      "label": "Primary link"
+    },
+
+    {
+      "type": "text",
+      "id": "secondary_label",
+      "label": "Secondary button",
+      "default": "Contact Our Team"
+    },
+
+    {
+      "type": "url",
+      "id": "secondary_link",
+      "label": "Secondary link"
+    },
+
+
+    {
+      "type": "header",
+      "content": "Intro"
+    },
+
+    {
+      "type": "text",
+      "id": "intro_eyebrow",
+      "label": "Intro eyebrow",
+      "default": "Built for Business"
+    },
+
+    {
+      "type": "text",
+      "id": "intro_heading",
+      "label": "Intro heading",
+      "default": "Lebih dari sekadar supplier."
+    },
+
+    {
+      "type": "richtext",
+      "id": "intro_text",
+      "label": "Intro text",
+      "default": "<p>Kami memahami bahwa kebutuhan bisnis berbeda dengan kebutuhan retail. BAITANDSTRIKE membantu toko fishing, reseller, marketplace seller, distributor, dan partner bisnis mendapatkan produk dengan proses pengadaan yang lebih praktis.</p>"
+    },
+
+
+    {
+      "type": "header",
+      "content": "Services"
+    },
+
+    {
+      "type": "text",
+      "id": "services_eyebrow",
+      "label": "Services eyebrow",
+      "default": "What We Offer"
+    },
+
+    {
+      "type": "text",
+      "id": "services_heading",
+      "label": "Services heading",
+      "default": "Solusi untuk kebutuhan bisnis Anda."
+    },
+
+
+    {
+      "type": "header",
+      "content": "Audience"
+    },
+
+    {
+      "type": "text",
+      "id": "audience_eyebrow",
+      "label": "Audience eyebrow",
+      "default": "Who We Serve"
+    },
+
+    {
+      "type": "text",
+      "id": "audience_heading",
+      "label": "Audience heading",
+      "default": "Partner untuk berbagai bisnis fishing."
+    },
+
+
+    {
+      "type": "header",
+      "content": "Why BAITANDSTRIKE"
+    },
+
+    {
+      "type": "text",
+      "id": "why_eyebrow",
+      "label": "Why eyebrow",
+      "default": "Why BAITANDSTRIKE"
+    },
+
+    {
+      "type": "text",
+      "id": "why_heading",
+      "label": "Why heading",
+      "default": "Dibangun dengan prinsip business first."
+    },
+
+
+    {
+      "type": "header",
+      "content": "CTA"
+    },
+
+    {
+      "type": "text",
+      "id": "cta_eyebrow",
+      "label": "CTA eyebrow",
+      "default": "Let's Work Together"
+    },
+
+    {
+      "type": "text",
+      "id": "cta_heading",
+      "label": "CTA heading",
+      "default": "Ready to grow your fishing business?"
+    },
+
+    {
+      "type": "textarea",
+      "id": "cta_text",
+      "label": "CTA text",
+      "default": "Mari berdiskusi mengenai kebutuhan produk dan pengadaan bisnis Anda."
+    },
+
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "CTA button",
+      "default": "Join B2B Program"
+    },
+
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "CTA link"
+    }
+
+  ],
+
+
+  "blocks": [
+
+    {
+      "type": "stat",
+      "name": "Stat",
+      "limit": 4,
+
+      "settings": [
+
+        {
+          "type": "text",
+          "id": "number",
+          "label": "Number",
+          "default": "01"
+        },
+
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Business First"
+        }
+
+      ]
+    },
+
+
+    {
+      "type": "service",
+      "name": "Service",
+      "limit": 4,
+
+      "settings": [
+
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Competitive B2B Pricing"
+        },
+
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Description",
+          "default": "Skema harga yang dirancang untuk membantu partner bisnis menjaga margin."
+        }
+
+      ]
+    },
+
+
+    {
+      "type": "audience",
+      "name": "Audience",
+      "limit": 6,
+
+      "settings": [
+
+        {
+          "type": "text",
+          "id": "icon",
+          "label": "Icon / number",
+          "default": "01"
+        },
+
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Fishing Store"
+        },
+
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Description",
+          "default": "Lengkapi toko dengan pilihan produk fishing untuk pelanggan Anda."
+        }
+
+      ]
+    },
+
+
+    {
+      "type": "why",
+      "name": "Why BAITANDSTRIKE",
+      "limit": 4,
+
+      "settings": [
+
+        {
+          "type": "text",
+          "id": "number",
+          "label": "Number",
+          "default": "01"
+        },
+
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Business First"
+        },
+
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Description",
+          "default": "Kami mempertimbangkan harga, kualitas, ketersediaan, dan kebutuhan bisnis partner."
+        }
+
+      ]
+    }
+
+  ],
+
+
+  "presets": [
+
+    {
+      "name": "BAITANDSTRIKE B2B About",
+
+      "blocks": [
+
+        {
+          "type": "stat",
+          "settings": {
+            "number": "01",
+            "label": "Business First"
+          }
+        },
+
+        {
+          "type": "stat",
+          "settings": {
+            "number": "02",
+            "label": "Reliable Supply"
+          }
+        },
+
+        {
+          "type": "stat",
+          "settings": {
+            "number": "03",
+            "label": "Competitive Pricing"
+          }
+        },
+
+        {
+          "type": "stat",
+          "settings": {
+            "number": "04",
+            "label": "Long-Term Partnership"
+          }
+        },
+
+
+        {
+          "type": "service",
+          "settings": {
+            "title": "Wide Product Selection",
+            "text": "Beragam kebutuhan fishing, tackle, accessories, dan produk pendukung bisnis."
+          }
+        },
+
+        {
+          "type": "service",
+          "settings": {
+            "title": "Competitive Pricing",
+            "text": "Skema B2B yang membantu partner mendapatkan harga yang lebih kompetitif."
+          }
+        },
+
+        {
+          "type": "service",
+          "settings": {
+            "title": "Business Procurement",
+            "text": "Dukungan pengadaan untuk kebutuhan stok dan pemesanan dalam jumlah besar."
+          }
+        },
+
+        {
+          "type": "service",
+          "settings": {
+            "title": "Long-Term Partnership",
+            "text": "Kami membangun hubungan bisnis jangka panjang melalui komunikasi dan konsistensi."
+          }
+        },
+
+
+        {
+          "type": "audience",
+          "settings": {
+            "icon": "01",
+            "title": "Fishing Store",
+            "text": "Solusi pengadaan untuk toko fishing dan retail."
+          }
+        },
+
+        {
+          "type": "audience",
+          "settings": {
+            "icon": "02",
+            "title": "Reseller",
+            "text": "Produk untuk mendukung bisnis reseller Anda."
+          }
+        },
+
+        {
+          "type": "audience",
+          "settings": {
+            "icon": "03",
+            "title": "Marketplace Seller",
+            "text": "Perluas katalog dan pilihan produk yang Anda jual."
+          }
+        },
+
+        {
+          "type": "audience",
+          "settings": {
+            "icon": "04",
+            "title": "Distributor & Dealer",
+            "text": "Peluang kerja sama pengadaan dan distribusi."
+          }
+        },
+
+        {
+          "type": "audience",
+          "settings": {
+            "icon": "05",
+            "title": "Community & Organization",
+            "text": "Kebutuhan event, komunitas, dan kegiatan fishing."
+          }
+        },
+
+        {
+          "type": "audience",
+          "settings": {
+            "icon": "06",
+            "title": "Other Business",
+            "text": "Punya kebutuhan khusus? Diskusikan dengan tim kami."
+          }
+        },
+
+
+        {
+          "type": "why",
+          "settings": {
+            "number": "01",
+            "title": "Business First",
+            "text": "Fokus pada nilai bisnis, margin, kualitas, dan kebutuhan partner."
+          }
+        },
+
+        {
+          "type": "why",
+          "settings": {
+            "number": "02",
+            "title": "Reliable Supply",
+            "text": "Membantu partner menjaga ketersediaan produk untuk operasional toko."
+          }
+        },
+
+        {
+          "type": "why",
+          "settings": {
+            "number": "03",
+            "title": "Competitive Pricing",
+            "text": "Skema B2B untuk mendukung struktur harga dan margin bisnis."
+          }
+        },
+
+        {
+          "type": "why",
+          "settings": {
+            "number": "04",
+            "title": "Long-Term Partnership",
+            "text": "Membangun hubungan yang berkelanjutan, bukan sekadar transaksi."
+          }
+        }
+
+      ]
+
+    }
+
+  ]
+
+}
+
+{% endschema %}

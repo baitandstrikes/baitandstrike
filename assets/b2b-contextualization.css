@@ -1,0 +1,238 @@
+.b2b-context-bar {
+  position: relative;
+  z-index: 4;
+  width: 100%;
+  background: rgb(var(--color-foreground));
+  color: rgb(var(--color-background));
+  border-bottom: 1px solid rgba(var(--color-background), 0.16);
+}
+
+.b2b-context-bar__inner {
+  max-width: var(--page-width);
+  margin: 0 auto;
+  padding: 10px 5rem;
+  min-height: 56px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  box-sizing: border-box;
+}
+
+.b2b-context-bar__identity {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.b2b-context-bar__icon {
+  width: 34px;
+  height: 34px;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(var(--color-background), 0.12);
+  flex: 0 0 auto;
+}
+
+.b2b-context-bar__eyebrow {
+  display: block;
+  font-size: 9px;
+  line-height: 1.1;
+  letter-spacing: 0.14em;
+  opacity: 0.7;
+  font-weight: 700;
+}
+
+.b2b-context-bar__company {
+  display: block;
+  margin-top: 2px;
+  font-size: 13px;
+  line-height: 1.25;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.b2b-context-bar__status {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 11px;
+  border: 1px solid rgba(var(--color-background), 0.2);
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.b2b-context-bar__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 0 3px rgba(var(--color-background), 0.12);
+}
+
+.b2b-context-bar__location {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.b2b-context-bar__location-label {
+  opacity: 0.65;
+}
+
+.b2b-context-bar__location-name {
+  font-weight: 700;
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.b2b-context-bar__switcher {
+  position: relative;
+  margin-left: 3px;
+}
+
+.b2b-context-bar__switcher summary {
+  cursor: pointer;
+  list-style: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 9px;
+  border-radius: 6px;
+  background: rgba(var(--color-background), 0.1);
+  font-weight: 700;
+}
+
+.b2b-context-bar__switcher summary::-webkit-details-marker {
+  display: none;
+}
+
+.b2b-context-bar__dropdown {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 9px);
+  width: min(320px, calc(100vw - 30px));
+  padding: 10px;
+  background: rgb(var(--color-background));
+  color: rgb(var(--color-foreground));
+  border: 1px solid rgba(var(--color-foreground), 0.12);
+  border-radius: 10px;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.16);
+}
+
+.b2b-context-bar__dropdown-title {
+  display: block;
+  padding: 6px 8px 9px;
+  font-size: 11px;
+  font-weight: 700;
+  opacity: 0.6;
+}
+
+.b2b-context-bar__dropdown ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.b2b-context-bar__dropdown li + li {
+  border-top: 1px solid rgba(var(--color-foreground), 0.08);
+}
+
+.b2b-context-bar__option {
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 8px;
+  color: inherit;
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 12px;
+  text-align: left;
+}
+
+a.b2b-context-bar__option:hover {
+  background: rgba(var(--color-foreground), 0.06);
+}
+
+.b2b-context-bar__option--current {
+  font-weight: 700;
+  background: rgba(var(--color-foreground), 0.05);
+}
+
+.b2b-context-bar__location--unset {
+  margin-left: auto;
+  opacity: 0.75;
+}
+
+@media screen and (max-width: 749px) {
+  .b2b-context-bar__inner {
+    padding: 9px 1.5rem;
+    min-height: auto;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 8px 12px;
+  }
+
+  .b2b-context-bar__identity {
+    min-width: 0;
+  }
+
+  .b2b-context-bar__status {
+    justify-self: end;
+    padding: 6px 8px;
+    font-size: 10px;
+  }
+
+  .b2b-context-bar__location {
+    grid-column: 1 / -1;
+    width: 100%;
+    justify-content: flex-start;
+    padding-top: 2px;
+  }
+
+  .b2b-context-bar__location-name {
+    max-width: 150px;
+  }
+
+  .b2b-context-bar__dropdown {
+    left: 0;
+    right: auto;
+  }
+
+  .b2b-context-bar__location--unset {
+    margin-left: 0;
+  }
+}
+
+/* B2B price presentation: the amount itself always comes from Shopify's
+   active market/catalog context. This CSS does not calculate or override price. */
+.price--b2b .b2b-price-label {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 4px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: rgba(var(--color-foreground), 0.08);
+  color: rgb(var(--color-foreground));
+  font-size: 10px;
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.price--b2b [data-b2b-price-context] {
+  position: relative;
+}

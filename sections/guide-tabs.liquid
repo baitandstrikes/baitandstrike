@@ -1,0 +1,425 @@
+<section class="guide-tabs-section" id="GuideTabs-{{ section.id }}">
+  <div class="guide-tabs">
+
+    <div class="guide-tabs__nav" role="tablist">
+
+      {% for block in section.blocks %}
+        <button
+          class="guide-tabs__tab {% if forloop.first %}is-active{% endif %}"
+          type="button"
+          role="tab"
+          aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+          data-tab="{{ block.id }}"
+          {{ block.shopify_attributes }}
+        >
+          {{ block.settings.title }}
+        </button>
+      {% endfor %}
+
+      <span class="guide-tabs__indicator"></span>
+
+    </div>
+
+    <div class="guide-tabs__content">
+
+      {% for block in section.blocks %}
+        <div
+          class="guide-tabs__panel {% if forloop.first %}is-active{% endif %}"
+          data-panel="{{ block.id }}"
+          role="tabpanel"
+        >
+          {% if block.settings.image != blank %}
+            <div class="guide-tabs__image">
+              {{
+                block.settings.image
+                | image_url: width: 1200
+                | image_tag:
+                  loading: 'lazy',
+                  widths: '400,600,800,1000,1200'
+              }}
+            </div>
+          {% endif %}
+
+          <div class="guide-tabs__text">
+            {% if block.settings.heading != blank %}
+              <h3>{{ block.settings.heading }}</h3>
+            {% endif %}
+
+            {% if block.settings.description != blank %}
+              <div class="guide-tabs__description">
+                {{ block.settings.description }}
+              </div>
+            {% endif %}
+
+            {% if block.settings.button_text != blank %}
+              <a
+                href="{{ block.settings.button_link }}"
+                class="guide-tabs__button"
+              >
+                {{ block.settings.button_text }}
+              </a>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+
+    </div>
+
+  </div>
+</section>
+
+<style>
+  #GuideTabs-{{ section.id }} {
+    width: 100%;
+    padding: 60px 20px;
+  }
+
+  #GuideTabs-{{ section.id }} .guide-tabs {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  /* NAVIGATION */
+
+  #GuideTabs-{{ section.id }} .guide-tabs__nav {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid #e5e5e5;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  #GuideTabs-{{ section.id }} .guide-tabs__nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  #GuideTabs-{{ section.id }} .guide-tabs__tab {
+    position: relative;
+    flex: 0 0 auto;
+    border: 0;
+    background: transparent;
+    padding: 18px 28px;
+    cursor: pointer;
+
+    font-size: 16px;
+    font-weight: 600;
+    color: #777;
+
+    transition:
+      color .3s ease,
+      transform .3s ease;
+  }
+
+  #GuideTabs-{{ section.id }} .guide-tabs__tab:hover {
+    color: #111;
+  }
+
+  #GuideTabs-{{ section.id }} .guide-tabs__tab.is-active {
+    color: #111;
+  }
+
+  #GuideTabs-{{ section.id }} .guide-tabs__tab:active {
+    transform: scale(.96);
+  }
+
+  /* INDICATOR */
+
+  #GuideTabs-{{ section.id }} .guide-tabs__indicator {
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+
+    height: 3px;
+    width: 0;
+
+    border-radius: 999px;
+
+    background: #111;
+
+    transition:
+      left .4s cubic-bezier(.4,0,.2,1),
+      width .4s cubic-bezier(.4,0,.2,1);
+  }
+
+  /* CONTENT */
+
+  #GuideTabs-{{ section.id }} .guide-tabs__content {
+    position: relative;
+    margin-top: 40px;
+  }
+
+  #GuideTabs-{{ section.id }} .guide-tabs__panel {
+    display: none;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 50px;
+
+    animation: guideTabFade .45s ease;
+  }
+
+  #GuideTabs-{{ section.id }} .guide-tabs__panel.is-active {
+    display: grid;
+  }
+
+  /* IMAGE */
+
+  #GuideTabs-{{ section.id }} .guide-tabs__image {
+    overflow: hidden;
+    border-radius: 18px;
+  }
+
+  #GuideTabs-{{ section.id }} .guide-tabs__image img {
+    display: block;
+    width: 100%;
+    height: auto;
+
+    transition: transform .6s ease;
+  }
+
+  #GuideTabs-{{ section.id }} .guide-tabs__image:hover img {
+    transform: scale(1.04);
+  }
+
+  /* TEXT */
+
+  #GuideTabs-{{ section.id }} .guide-tabs__text h3 {
+    margin: 0 0 15px;
+
+    font-size: clamp(26px, 4vw, 42px);
+    line-height: 1.1;
+  }
+
+  #GuideTabs-{{ section.id }} .guide-tabs__description {
+    color: #666;
+    line-height: 1.7;
+    margin-bottom: 25px;
+  }
+
+  #GuideTabs-{{ section.id }} .guide-tabs__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 13px 24px;
+
+    background: #111;
+    color: #fff;
+
+    text-decoration: none;
+    border-radius: 999px;
+
+    transition:
+      transform .3s ease,
+      box-shadow .3s ease;
+  }
+
+  #GuideTabs-{{ section.id }} .guide-tabs__button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0,0,0,.15);
+  }
+
+  @keyframes guideTabFade {
+    from {
+      opacity: 0;
+      transform: translateY(15px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* MOBILE */
+
+  @media (max-width: 749px) {
+
+    #GuideTabs-{{ section.id }} {
+      padding: 40px 16px;
+    }
+
+    #GuideTabs-{{ section.id }} .guide-tabs__nav {
+      justify-content: flex-start;
+    }
+
+    #GuideTabs-{{ section.id }} .guide-tabs__tab {
+      padding: 15px 18px;
+      font-size: 14px;
+      white-space: nowrap;
+    }
+
+    #GuideTabs-{{ section.id }} .guide-tabs__panel {
+      grid-template-columns: 1fr;
+      gap: 25px;
+    }
+
+  }
+</style>
+
+<script>
+  (() => {
+
+    const section = document.querySelector(
+      '#GuideTabs-{{ section.id }}'
+    );
+
+    if (!section) return;
+
+    const tabs = section.querySelectorAll('.guide-tabs__tab');
+    const panels = section.querySelectorAll('.guide-tabs__panel');
+    const indicator = section.querySelector('.guide-tabs__indicator');
+
+    function moveIndicator(tab) {
+
+      const nav = section.querySelector('.guide-tabs__nav');
+
+      const tabRect = tab.getBoundingClientRect();
+      const navRect = nav.getBoundingClientRect();
+
+      indicator.style.left =
+        `${tabRect.left - navRect.left + nav.scrollLeft}px`;
+
+      indicator.style.width =
+        `${tabRect.width}px`;
+    }
+
+    function activateTab(tab) {
+
+      const target = tab.dataset.tab;
+
+      tabs.forEach(item => {
+        const active = item === tab;
+
+        item.classList.toggle('is-active', active);
+        item.setAttribute(
+          'aria-selected',
+          active ? 'true' : 'false'
+        );
+      });
+
+      panels.forEach(panel => {
+
+        const active =
+          panel.dataset.panel === target;
+
+        panel.classList.toggle(
+          'is-active',
+          active
+        );
+
+      });
+
+      moveIndicator(tab);
+
+    }
+
+    tabs.forEach(tab => {
+
+      tab.addEventListener('click', () => {
+        activateTab(tab);
+      });
+
+    });
+
+    const activeTab =
+      section.querySelector('.guide-tabs__tab.is-active');
+
+    if (activeTab) {
+      requestAnimationFrame(() => {
+        moveIndicator(activeTab);
+      });
+    }
+
+    window.addEventListener('resize', () => {
+
+      const active =
+        section.querySelector('.guide-tabs__tab.is-active');
+
+      if (active) {
+        moveIndicator(active);
+      }
+
+    });
+
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Guide Tabs Slider",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "tab",
+      "name": "Tab",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Nama Tab",
+          "default": "Cara Membeli"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Judul",
+          "default": "Cara Membeli"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Deskripsi",
+          "default": "<p>Jelaskan informasi pada tab ini.</p>"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Gambar"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Teks Button",
+          "default": "Selengkapnya"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Link Button"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Guide Tabs Slider",
+      "blocks": [
+        {
+          "type": "tab",
+          "settings": {
+            "title": "Cara Membeli",
+            "heading": "Cara Membeli"
+          }
+        },
+        {
+          "type": "tab",
+          "settings": {
+            "title": "Cara Menjual",
+            "heading": "Cara Menjual"
+          }
+        },
+        {
+          "type": "tab",
+          "settings": {
+            "title": "Cara Tukar Tambah",
+            "heading": "Cara Tukar Tambah"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

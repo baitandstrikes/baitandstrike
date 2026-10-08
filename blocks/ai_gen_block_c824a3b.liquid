@@ -1,0 +1,93 @@
+{% doc %}
+  @prompt
+    Modify the Quick order list section's "View Cart" button behavior so that when clicked, it opens the cart drawer (sliding from the right side) instead of redirecting to the cart page. The solution should intercept the View Cart button click event in the quick-order-list section, prevent the default navigation, and trigger the existing cart drawer to open from the right side. This should work with the Dawn theme's built-in cart drawer mechanism (cart-notification or cart-drawer component). The fix should be applied specifically to the quick-order-list section without breaking other cart functionality.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-quick-cart-fix-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    height: 0;
+    overflow: hidden;
+  }
+{% endstyle %}
+
+<quick-order-cart-fix-{{ ai_gen_id }}
+  class="ai-quick-cart-fix-{{ ai_gen_id }}"
+  data-section-id="{{ section.id }}"
+  {{ block.shopify_attributes }}
+></quick-order-cart-fix-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class QuickOrderCartFix{{ ai_gen_id }} extends HTMLElement {
+      connectedCallback() {
+        if (this.initialized) return;
+        this.initialized = true;
+        this.section = this.closest('.shopify-section');
+        if (!this.section) return;
+        this.handleClick = this.handleClick.bind(this);
+        this.section.addEventListener('click', this.handleClick, true);
+      }
+
+      disconnectedCallback() {
+        if (this.section && this.handleClick) {
+          this.section.removeEventListener('click', this.handleClick, true);
+        }
+      }
+
+      handleClick(event) {
+        const button = event.target.closest('a, button');
+        if (!button || !this.section.contains(button)) return;
+
+        const label = (button.textContent || '').trim().replace(/\s+/g, ' ').toLowerCase();
+        const href = button.getAttribute('href') || '';
+        const isViewCart = label === 'view cart' || label === 'view your cart' || href === '/cart' || href.indexOf('/cart?') === 0;
+        if (!isViewCart) return;
+
+        const quickOrderSection = button.closest('.quick-order-list, quick-order-list, [id*="quick-order-list"]');
+        if (!quickOrderSection && !this.section.querySelector('.quick-order-list, quick-order-list, [id*="quick-order-list"]')) return;
+
+        const drawer = document.querySelector('cart-drawer');
+        const notification = document.querySelector('cart-notification');
+        const target = drawer || notification;
+        if (!target || typeof target.open !== 'function') return;
+
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        target.open();
+      }
+    }
+
+    if (!customElements.get('quick-order-cart-fix-{{ ai_gen_id }}')) {
+      customElements.define('quick-order-cart-fix-{{ ai_gen_id }}', QuickOrderCartFix{{ ai_gen_id }});
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Quick order cart fix",
+  "settings": [
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    }
+  ],
+  "presets": [
+    {
+      "name": "Quick order cart fix"
+    }
+  ],
+  "tag": null,
+  "class": "quick-order-cart-fix-block"
+}
+{% endschema %}
