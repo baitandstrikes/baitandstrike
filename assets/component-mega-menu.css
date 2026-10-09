@@ -85,3 +85,50 @@
 .mega-menu__list--condensed .mega-menu__link {
   font-weight: normal;
 }
+
+@media screen and (min-width: 990px) {
+  .header .mega-menu__content {
+    margin: 0 1.6rem;
+    padding: 2rem;
+    background: #ffffff;
+    color: #14212b;
+    border: 1px solid #dceaf4;
+    border-top: 3px solid #3282c0;
+    border-radius: 0 0 16px 16px;
+    box-shadow: 0 18px 40px rgba(18,63,95,.18);
+    transition: opacity .2s ease, transform .2s ease;
+  }
+  .header .mega-menu__list { padding: 0; gap: 1.4rem 2rem; }
+  .header .mega-menu__link {
+    color: #14212b;
+    padding: 1rem 1.2rem;
+    border-radius: 8px;
+    transition: background-color .18s ease, color .18s ease;
+    text-decoration: none;
+  }
+  .header .mega-menu__link:hover,
+  .header .mega-menu__link:focus-visible,
+  .header .mega-menu__link--active {
+    background: #eaf5fc;
+    color: #17547f;
+    text-decoration: none;
+  }
+  .header .mega-menu:has(.mega-menu__list--condensed) { position: relative; }
+  .header .mega-menu:has(.mega-menu__list--condensed) .mega-menu__content {
+    width: 240px;
+    max-width: calc(100vw - 32px);
+    left: auto;
+    right: 0;
+    margin: 0;
+    padding: 1rem;
+  }
+  .header .mega-menu__link[href*="/account/logout"] {
+    margin-top: .8rem;
+    border-top: 1px solid #e1eaf0;
+    color: #b42318;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .header .mega-menu__content,
+  .header .mega-menu__link { transition: none; }
+}
