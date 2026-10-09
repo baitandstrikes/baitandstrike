@@ -1,0 +1,146 @@
+{% comment %}
+  BAITANDSTRIKE — BNS Auth (Woo-style split layout)
+  Left: navy promo panel (logo, headline, benefits, catalog link).
+  Right: page.content — where the BMT signin / registration form lives.
+  Assign via page templates: page.b2b-signin, page.b2b-register.
+{% endcomment %}
+
+{{ 'bns-auth.css' | asset_url | stylesheet_tag }}
+
+<section class="bns-auth">
+  <div class="bns-auth__shell">
+    <aside
+      class="bns-auth__promo"
+      {% if section.settings.promo_image != blank %}
+        style="--bns-auth-image: url('{{ section.settings.promo_image | image_url: width: 1600 }}')"
+      {% endif %}
+    >
+      <a class="bns-auth__promo-logo" href="{{ routes.root_url }}">
+        {% if settings.logo != blank %}
+          {{
+            settings.logo
+            | image_url: width: 440
+            | image_tag: alt: shop.name, loading: 'eager', widths: '220, 330, 440'
+          }}
+        {% else %}
+          {{ shop.name }}
+        {% endif %}
+      </a>
+      <div class="bns-auth__copy">
+        {% if section.settings.eyebrow != blank %}
+          <p class="bns-auth__eyebrow">{{ section.settings.eyebrow }}</p>
+        {% endif %}
+        <h2>
+          <span>{{ section.settings.line_1 }}</span>
+          <span class="bns-auth__blue">{{ section.settings.line_2 }}</span>
+          <span class="bns-auth__yellow">{{ section.settings.line_3 }}</span>
+        </h2>
+        {% if section.settings.subtext != blank %}
+          <p>{{ section.settings.subtext }}</p>
+        {% endif %}
+      </div>
+      <ul class="bns-auth__benefits">
+        <li><span aria-hidden="true">✓</span>{{ section.settings.benefit_1 }}</li>
+        <li><span aria-hidden="true">↗</span>{{ section.settings.benefit_2 }}</li>
+        <li><span aria-hidden="true">◎</span>{{ section.settings.benefit_3 }}</li>
+      </ul>
+      <a class="bns-auth__back" href="{{ section.settings.catalog_link | default: routes.all_products_collection_url }}">
+        {{ section.settings.back_label }} <span aria-hidden="true">→</span>
+      </a>
+    </aside>
+
+    <div class="bns-auth__form">
+      <a class="bns-auth__form-logo" href="{{ routes.root_url }}">
+        {% if settings.logo != blank %}
+          {{
+            settings.logo
+            | image_url: width: 460
+            | image_tag: alt: shop.name, loading: 'eager', widths: '230, 345, 460'
+          }}
+        {% else %}
+          {{ shop.name }}
+        {% endif %}
+      </a>
+      {{ page.content }}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "BNS Auth (Woo style)",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "promo_image",
+      "label": "Promo panel background"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "FISHING GEAR & ACCESSORIES"
+    },
+    {
+      "type": "text",
+      "id": "line_1",
+      "label": "Headline line 1 (white)",
+      "default": "GEAR UP."
+    },
+    {
+      "type": "text",
+      "id": "line_2",
+      "label": "Headline line 2 (blue)",
+      "default": "CAST FURTHER."
+    },
+    {
+      "type": "text",
+      "id": "line_3",
+      "label": "Headline line 3 (yellow)",
+      "default": "STRIKE HARDER."
+    },
+    {
+      "type": "textarea",
+      "id": "subtext",
+      "label": "Promo subtext",
+      "default": "Perlengkapan memancing berkualitas untuk hasil yang lebih besar. Bersama BAITANDSTRIKE, setiap trip jadi lebih berarti."
+    },
+    {
+      "type": "text",
+      "id": "benefit_1",
+      "label": "Benefit 1",
+      "default": "Produk berkualitas"
+    },
+    {
+      "type": "text",
+      "id": "benefit_2",
+      "label": "Benefit 2",
+      "default": "Pengiriman seluruh Indonesia"
+    },
+    {
+      "type": "text",
+      "id": "benefit_3",
+      "label": "Benefit 3",
+      "default": "Solusi reseller & B2B"
+    },
+    {
+      "type": "text",
+      "id": "back_label",
+      "label": "Catalog link label",
+      "default": "Jelajahi katalog"
+    },
+    {
+      "type": "url",
+      "id": "catalog_link",
+      "label": "Catalog link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "BNS Auth (Woo style)"
+    }
+  ]
+}
+{% endschema %}

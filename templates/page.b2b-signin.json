@@ -1,0 +1,19 @@
+{
+  "sections": {
+    "auth": {
+      "type": "bns-auth",
+      "settings": {
+        "eyebrow": "FISHING GEAR & ACCESSORIES",
+        "line_1": "GEAR UP.",
+        "line_2": "CAST FURTHER.",
+        "line_3": "STRIKE HARDER.",
+        "subtext": "Perlengkapan memancing berkualitas untuk hasil yang lebih besar. Bersama BAITANDSTRIKE, setiap trip jadi lebih berarti.",
+        "benefit_1": "Produk berkualitas",
+        "benefit_2": "Pengiriman seluruh Indonesia",
+        "benefit_3": "Solusi reseller & B2B",
+        "back_label": "Jelajahi katalog"
+      }
+    }
+  },
+  "order": ["auth"]
+}

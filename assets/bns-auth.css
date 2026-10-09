@@ -1,0 +1,278 @@
+/* BNS Auth — Woo-style split auth layout (promo panel + BMT form column) */
+.bns-auth {
+  padding: 4vh 4vw;
+  background: radial-gradient(ellipse at 50% 45%, #fff 0%, #f1f2f2 72%);
+}
+.bns-auth__shell {
+  width: min(1240px, 100%);
+  min-height: min(760px, 92vh);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.08fr 1fr;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid #e5e9ed;
+  border-radius: 18px;
+  box-shadow: 0 18px 60px rgb(9 30 56 / 12%);
+}
+
+/* Promo panel */
+.bns-auth__promo {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 680px;
+  padding: clamp(28px, 4vw, 58px);
+  overflow: hidden;
+  color: #fff;
+  background: #05294b;
+}
+.bns-auth__promo::before,
+.bns-auth__promo::after {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  content: "";
+}
+.bns-auth__promo::before {
+  background-image: var(--bns-auth-image);
+  background-position: center;
+  background-size: cover;
+  opacity: 0.5;
+}
+.bns-auth__promo::after {
+  background: linear-gradient(160deg, rgb(1 23 45 / 88%) 0%, rgb(2 43 78 / 76%) 47%, rgb(1 21 42 / 91%) 100%);
+}
+.bns-auth__promo-logo img {
+  width: 220px;
+  height: 90px;
+  object-fit: contain;
+}
+.bns-auth__copy {
+  max-width: 480px;
+  margin: auto 0;
+  padding: 32px 0;
+}
+.bns-auth__eyebrow {
+  margin: 0 0 16px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+}
+.bns-auth__copy h2 {
+  margin: 0 0 18px;
+  font-family: Impact, "Arial Narrow", sans-serif;
+  font-size: clamp(36px, 5vw, 64px);
+  font-style: italic;
+  font-weight: 900;
+  letter-spacing: -0.035em;
+  line-height: 0.98;
+  color: #fff;
+}
+.bns-auth__copy h2 span { display: block; }
+.bns-auth__blue { color: #18a6f5; }
+.bns-auth__yellow { color: #ffdf00; }
+.bns-auth__copy > p:last-child {
+  max-width: 350px;
+  margin: 0;
+  font-size: clamp(15px, 1.5vw, 18px);
+  line-height: 1.55;
+  color: #fff;
+}
+.bns-auth__benefits {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin: 0;
+  padding: 20px 0 0;
+  border-top: 1px solid rgb(255 255 255 / 32%);
+  list-style: none;
+}
+.bns-auth__benefits li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  line-height: 1.3;
+}
+.bns-auth__benefits li span {
+  color: #ffdf00;
+  font-size: 25px;
+  font-weight: 700;
+}
+.bns-auth__back {
+  align-self: flex-start;
+  margin-top: 20px;
+  color: #fff;
+  font-size: 13px;
+  text-decoration: none;
+}
+.bns-auth__back:hover { color: #ffdf00; }
+
+/* Form column */
+.bns-auth__form {
+  align-self: center;
+  width: min(100%, 570px);
+  margin: auto;
+  padding: clamp(28px, 4vw, 50px);
+}
+.bns-auth__form-logo {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto 14px;
+}
+.bns-auth__form-logo img {
+  width: min(230px, 70%);
+  height: 56px;
+  object-fit: contain;
+}
+
+/* ---- BMT register form tokens (match Woo account.css) ---- */
+.bns-auth__form .bmt-form-scope {
+  --bmt-font: inherit;
+  --bmt-radius: 7px;
+  --bmt-radius-btn: 8px;
+  --bmt-radius-box: 8px;
+  --bmt-radius-card: 16px;
+  --bmt-radius-sm: 6px;
+  --bmt-field-bg: #fff;
+  --bmt-field-border: 1px solid #cbd4df;
+  --bmt-field-padding: 8px 14px;
+  --bmt-field-padding-tight: 8px 12px;
+  --bmt-label-color: #14233b;
+  --bmt-font-size: 13px;
+  --bmt-primary: #ffdc00;
+  --bmt-secondary: #5e6b7d;
+  --bmt-heading-color: #0a1b35;
+  --bmt-heading-size: clamp(28px, 3.3vw, 40px);
+  --bmt-subhead-size: 14px;
+  --bmt-focus-ring: rgb(23 142 224 / 15%);
+}
+.bns-auth__form .bmt-form-scope input:focus,
+.bns-auth__form .bmt-form-scope textarea:focus,
+.bns-auth__form .bmt-form-scope select:focus {
+  border-color: #178ee0 !important;
+  outline: 3px solid rgb(23 142 224 / 15%) !important;
+}
+.bns-auth__form .bmt-form-scope .submit-button {
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 48px;
+  border: 0 !important;
+  border-radius: 8px !important;
+  background: #ffdc00 !important;
+  color: #08192e !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  letter-spacing: 1px;
+  cursor: pointer;
+}
+.bns-auth__form .bmt-form-scope .submit-button:hover {
+  background: #f4c900 !important;
+}
+
+/* ---- BMT signin form (its <style> ships in page content; beat it with specificity) ---- */
+.bns-auth__form .bmt-signin {
+  max-width: 100%;
+  margin: 0 auto;
+  font-family: inherit;
+}
+.bns-auth__form .bmt-signin-card {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+}
+.bns-auth__form .bmt-signin h1 {
+  margin: 0 0 4px;
+  color: #0a1b35;
+  font-size: clamp(28px, 3.3vw, 40px);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.18;
+}
+.bns-auth__form .bmt-signin .bmt-signin-intro {
+  margin: 0 0 18px;
+  color: #5e6b7d;
+  font-size: 14px;
+  line-height: 1.5;
+  opacity: 1;
+}
+.bns-auth__form .bmt-signin label {
+  display: block;
+  margin: 0 0 4px;
+  color: #14233b;
+  font-size: 11px;
+  font-weight: 600;
+}
+.bns-auth__form .bmt-signin input[type="email"] {
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 40px;
+  margin-bottom: 14px;
+  padding: 8px 14px;
+  border: 1px solid #cbd4df;
+  border-radius: 7px;
+  background: #fff;
+  color: #12213b;
+  font-size: 13px;
+  box-shadow: 0 1px 2px rgb(20 35 59 / 4%);
+}
+.bns-auth__form .bmt-signin input[type="email"]:focus {
+  border-color: #178ee0;
+  outline: 3px solid rgb(23 142 224 / 15%);
+}
+.bns-auth__form .bmt-signin button {
+  width: 100%;
+  min-height: 48px;
+  padding: 14px 20px;
+  border: 0;
+  border-radius: 8px;
+  background: #ffdc00;
+  color: #08192e;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  cursor: pointer;
+}
+.bns-auth__form .bmt-signin button:hover { background: #f4c900; }
+.bns-auth__form .bmt-signin button[disabled] { opacity: 0.6; cursor: default; }
+.bns-auth__form .bmt-signin .bmt-signin-links {
+  margin-top: 12px;
+  color: #697587;
+  font-size: 13px;
+  text-align: center;
+}
+.bns-auth__form .bmt-signin .bmt-signin-links a {
+  color: #087dc4;
+  text-underline-offset: 2px;
+}
+.bns-auth__form .bmt-signin .bmt-signin-support {
+  border-top: 1px solid #e5e9ed;
+  color: #6d7888;
+  opacity: 1;
+}
+
+@media (max-width: 760px) {
+  .bns-auth { padding: 0; background: #fff; }
+  .bns-auth__shell {
+    min-height: 100vh;
+    grid-template-columns: 1fr;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .bns-auth__promo { min-height: 280px; padding: 22px 24px; }
+  .bns-auth__promo-logo img { width: 160px; height: 58px; }
+  .bns-auth__copy { padding: 16px 0; }
+  .bns-auth__copy h2 { font-size: clamp(30px, 8vw, 46px); margin-bottom: 10px; }
+  .bns-auth__copy > p:last-child { font-size: 14px; max-width: 430px; }
+  .bns-auth__eyebrow { font-size: 9px; margin-bottom: 9px; }
+  .bns-auth__benefits { gap: 8px; padding-top: 12px; }
+  .bns-auth__benefits li { gap: 5px; font-size: 10px; }
+  .bns-auth__benefits li span { font-size: 18px; }
+  .bns-auth__back { display: none; }
+  .bns-auth__form { width: 100%; max-width: 560px; padding: 28px 24px 40px; }
+}
